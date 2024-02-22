@@ -14,9 +14,9 @@ https://meet.google.com/ici-ezxv-zjg
 
 ## Project deadlines: 
 
-Project proposal: tbd
-Presentation: tbd
-Project delivery: tbd
+- Project proposal: tbd
+- Presentation: tbd
+- Project delivery: tbd
 
 
 ## Theoretical Introduction 
