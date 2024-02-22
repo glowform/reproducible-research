@@ -26,3 +26,7 @@ from dr Wojciech Hardy: https://hackmd.io/@WHardy/RR2024
 ## Annoucements
 
 29.02.2024 - Classes moved to another date: tdb
+
+## Assignments
+
+22.02.2024 Create your github profile (fill up the name and surname), go to this repository and star it.
