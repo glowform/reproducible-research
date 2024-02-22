@@ -22,3 +22,7 @@ https://meet.google.com/ici-ezxv-zjg
 ## Theoretical Introduction 
 
 from dr Wojciech Hardy: https://hackmd.io/@WHardy/RR2024
+
+## Annoucements
+
+29.02.2024 - Classes moved to another date: tdb
