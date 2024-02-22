@@ -10,7 +10,7 @@ https://meet.google.com/ici-ezxv-zjg
 ## Requirements and Grading: 
 
 - 50% activity
-- 50% project and presentation (in teams of 3-4)
+- 50% (40/10) project and presentation (in teams of 3-4)
 
 ## Project deadlines: 
 
