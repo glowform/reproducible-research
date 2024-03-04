@@ -171,3 +171,13 @@ git ls-files -o
 Copy the contents of Bash/CLI starting from git status and send them to me in a notepad file (j.michankow@uw.edu.pl).
 
 Try to store your files in a safe place so we can pick up where we left next time.
+
+## Resources
+
+https://git-scm.com/book/en/v2/Git-Tools-Reset-Demystified
+
+https://www.atlassian.com/git/tutorials/atlassian-git-cheatsheet
+
+https://git-scm.com/
+
+https://www.atlassian.com/git
