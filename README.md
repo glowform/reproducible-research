@@ -29,4 +29,6 @@ from dr Wojciech Hardy: https://hackmd.io/@WHardy/RR2024
 
 ## Assignments
 
-22.02.2024 (DS)/26.02(QF) Create your github profile (fill up the name and surname), go to this repository and star it.
+22.02.2024 (DS)/26.02(QF) - Assignment 1. Create your github profile (fill up the name and surname), go to this repository and star it.
+
+04.03.2024 (QF) - Assignment 2. Link to instructions
