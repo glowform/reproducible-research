@@ -209,3 +209,6 @@ https://www.atlassian.com/git/tutorials/atlassian-git-cheatsheet
 https://git-scm.com/
 
 https://www.atlassian.com/git
+
+## Acknowledgements
+Based on the materials prepared by dr Wojciech Hardy
