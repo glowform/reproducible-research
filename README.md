@@ -14,9 +14,9 @@ https://meet.google.com/ici-ezxv-zjg
 
 ## Project deadlines: 
 
-- Project proposal: tbd
-- Presentation: tbd
-- Project delivery: tbd
+- Project proposal: (QF) 18.03.2024 
+- Presentation: (QF) 22.04.2024
+- Project delivery: (QF) 03.06.2024 and 10.06 (final presentation of the project and delivery)
 
 
 ## Theoretical Introduction 
@@ -24,7 +24,7 @@ https://meet.google.com/ici-ezxv-zjg
 from dr Wojciech Hardy: https://hackmd.io/@WHardy/RR2024
 
 ## Annoucements
-(QF) 19.02.2024 - Classes moved to another date: tbd\
+(QF) 19.02.2024 - Classes moved to another date: 13.03 18:30
 (DS) 29.02.2024 - Classes moved to another date: tbd
 
 
