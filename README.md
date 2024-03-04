@@ -24,8 +24,9 @@ https://meet.google.com/ici-ezxv-zjg
 from dr Wojciech Hardy: https://hackmd.io/@WHardy/RR2024
 
 ## Annoucements
+(QF) 19.02.2024 - Classes moved to another date: tbd\
+(DS) 29.02.2024 - Classes moved to another date: tbd
 
-29.02.2024 - Classes moved to another date: tdb
 
 ## Assignments
 
