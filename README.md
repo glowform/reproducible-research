@@ -31,4 +31,4 @@ from dr Wojciech Hardy: https://hackmd.io/@WHardy/RR2024
 
 22.02.2024 (DS)/26.02(QF) - Assignment 1. Create your github profile (fill up the name and surname), go to this repository and star it.
 
-04.03.2024 (QF) - Assignment 2. Link to instructions: [Assignments/RR_assignment_2.md](https://github.com/glowform/reproducible-research/blob/main/Assignments/RR_assignment_2.md)https://github.com/glowform/reproducible-research/blob/main/Assignments/RR_assignment_2.md
+04.03.2024 (QF) - Assignment 2. [ Link to instructions:](https://github.com/glowform/reproducible-research/blob/main/Assignments/RR_assignment_2.md)
