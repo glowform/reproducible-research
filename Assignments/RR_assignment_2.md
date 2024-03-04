@@ -18,7 +18,7 @@ git --version
 https://git-scm.com/book/en/v2/Getting-Started-Installing-Git
 
 
-### EX0
+### Exercise 0
 
 Open up the terminal\
 Pick a space for your reproducible research materials and navigate there
@@ -59,7 +59,7 @@ Note 2: local configuraiton will be visible only if we're in a Git repository
 
 git config -l --local
 
-### EX1
+### Exercise 1
 
 In your RR_git1 directory, initiate a git repository named EX1 and enter it\
 (hint: you can either initiate it with that name, or create a folder named EX1, enter it, and initiate the repository inside)
@@ -109,7 +109,7 @@ git status to verify where you are, and what are the differences between the thr
 git diff to compare last commit with what's in the working directory\
 git log to view the commit history
 
-### EX2
+### Exercise 2
 
 In your RR_git1 directory, initiate a git repository named EX2\
 cd ..\
@@ -129,7 +129,7 @@ git commit -m "Added README.md with one line of text"
 
 (check git status and git diff and git log to get a better feel of this)\
 
-### EX3
+### Exercise 3
 
 Add another line of text to the file you created.\
 echo "a second line" >> README.md
@@ -151,7 +151,7 @@ Check git log, etc. again.\
 git log\
 git status
 
-### EX4
+### Exercise 4
 
 using .gitignore\
 Create data/data1.csv file and fill it with a random data line (can be just comma-separated text, it doesn't matter), check status and diff
