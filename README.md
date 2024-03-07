@@ -33,7 +33,7 @@ from dr Wojciech Hardy: https://hackmd.io/@WHardy/RR2024
 
 ## Annoucements
 (QF) 19.02.2024 - Classes moved to another date: 13.03.2024 18:30 \
-(DS) 29.02.2024 - Classes moved to another date: tbd
+(DS) 29.02.2024 - Classes moved to another date: tbd \
 (DS) We need to move 28.04 due to rector hours: tbd
 
 
