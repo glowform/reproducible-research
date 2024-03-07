@@ -24,7 +24,7 @@ Around 5 mins, the presentation need to include slides with title page with team
 
 **Project delivery and discussion**: (QF) 03.06.2024 and 10.06  
 
-The project needs to be an **empirical reasearch** (for example, data analysis and modelling (DS), financial forecasting, trading, risk management (QF)). You need to use Git and GitHub for the teamwork, version controlling, and delivery. The **repository needs to be updated regularly** with access to the history of your commits and changes (so start using Git/GitHub on day one). The project needs to be **fully reproducible** (anyone needs to be able to replicate your results). Also, you need to provide clear instructions on how to set up the environment and run the code. Preffered programming languages are Python and R.
+The project needs to be an **empirical reasearch** (for example, data analysis and modelling (DS), financial forecasting, trading, risk management (QF)). You need to use Git and GitHub for the teamwork, version controlling, and delivery. The **repository needs to be updated regularly** with access to the history of your commits and changes (so start using Git/GitHub on day one). The project needs to be **fully reproducible** (anyone needs to be able to replicate your results). Also, you need to provide clear instructions on how to set up the environment and run the code. Preferred programming languages are Python and R.
 
 
 ## Theoretical Introduction 
