@@ -106,7 +106,7 @@ git config --local user.name "Developer_2"
 ![Working with central repo](https://github.com/glowform/reproducible-research/blob/main/Assignments/RR3_2.jpg?raw=true "Working with central repo")
 
 #### So far all repositories are empty. Let's imagine:
-Dev1 kick-starts the project by creating the branch with one commit and sending it upstream
+Dev1 kick-starts the project by creating the branch with one commit and sending it upstream (make sure you are in correct directory)
 ```
 echo "This will be the file with code" > code.R
 git add .
