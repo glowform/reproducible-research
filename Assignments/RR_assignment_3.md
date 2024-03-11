@@ -198,7 +198,7 @@ The merge becomes a new commit (try git log)
 
 
 ## Assignment:
-While in your `Dev2` repository, run these four commands:
+While in your `Dev2` repository, run these commands:
 ```
 git status
 git log
