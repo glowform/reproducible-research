@@ -43,4 +43,4 @@ from dr Wojciech Hardy: https://hackmd.io/@WHardy/RR2024
 
 04.03.2024 (QF)/07.03(DS) - Assignment 2. [ Link to instructions](https://github.com/glowform/reproducible-research/blob/main/Assignments/RR_assignment_2.md)
 
-11.03.2024 (QF)/14.03(DS) - Assignment 2. [ Link to instructions](https://github.com/glowform/reproducible-research/blob/main/Assignments/RR_assignment_3.md)
+11.03.2024 (QF)/14.03(DS) - Assignment 3. [ Link to instructions](https://github.com/glowform/reproducible-research/blob/main/Assignments/RR_assignment_3.md)
