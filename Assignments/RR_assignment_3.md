@@ -206,6 +206,14 @@ git ls-files
 ```
 Copy the contents of Bash/CLI starting from git status and send them to me in a notepad file (j.michankow@uw.edu.pl).
 
+## Resources
+
+https://www.atlassian.com/git/tutorials/atlassian-git-cheatsheet
+
+https://git-scm.com/book/en/v2/Git-Tools-Reset-Demystified
+
+https://www.atlassian.com/git
+
 
 ## Acknowledgements
 Based on the materials prepared by dr Wojciech Hardy
