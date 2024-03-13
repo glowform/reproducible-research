@@ -1,7 +1,9 @@
 
 ## Git basics pt 2
 
-###Git commands: working with a central repository
+!Important note: Do NOT use PowerShell for this task, and if you do, you need to change the encoding to UTF-8 by typing `Set-Content -Path text3.txt -Encoding utf8`
+
+### Git commands: working with a central repository
 
 `git init --bare` to create barebones for a central repository (with no initial commits)
 
@@ -213,6 +215,12 @@ https://www.atlassian.com/git/tutorials/atlassian-git-cheatsheet
 https://git-scm.com/book/en/v2/Git-Tools-Reset-Demystified
 
 https://www.atlassian.com/git
+
+#### Resolving merge conflicts
+
+https://www.atlassian.com/git/tutorials/using-branches/merge-conflicts
+
+https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/addressing-merge-conflicts/resolving-a-merge-conflict-using-the-command-line
 
 
 ## Acknowledgements
