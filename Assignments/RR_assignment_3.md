@@ -1,7 +1,7 @@
 
 ## Git basics pt 2
 
-!Important note: Do NOT use PowerShell for this task, and if you do, you need to change the encoding to UTF-8 by typing `Set-Content -Path text3.txt -Encoding utf8`
+!Important note: Do NOT use PowerShell for this task, and if you do, you need to change the encoding of each file to UTF-8 by typing `Set-Content -Path text3.txt -Encoding utf8`
 
 ### Git commands: working with a central repository
 
