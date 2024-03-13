@@ -193,7 +193,7 @@ What if two devs make two different versions of a file?
 In Dev2, create a new file called text3.txt with the line "A line added by Dev2". Stage, commit and try to push. Read the hints, follow and go to step 2.
 
 There's a conflict because Dev1 committed a different text3.txt file earlier.
-We're in a merging mode. Try to see whats wrong using `git status` etc. We can view files using `type`, `more` or `cat` or edit the file (e.g. in Notepad) to figure out what should remain. Then stage it and commit it.
+We're in a merging mode. Try to see whats wrong using `git status` etc. We can view files using `type`, `more` or `cat` and then edit the file (e.g. in Notepad) to figure out what should remain. Then stage it and commit it.
 
 The merge becomes a new commit (try git log)
 
