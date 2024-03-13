@@ -23,11 +23,11 @@ We're going to pretend we have two developers and a central repository.
 
 ### Quick recap
 
-In our workspace, let's create a new folder RR_git2 and go inside
+In our workspace, let's create a new folder RR_3 and go inside
 
 ```
-mkdir RR_git2
-cd RR_git2
+mkdir RR_3
+cd RR_3
 ```
 
 Let's create a repository named RecapRepo and go inside
@@ -57,7 +57,7 @@ git add file2.txt
 git status
 ```
 
-In RR_git2 create a clone of the first repository; go inside
+In RR_3 create a clone of the first repository; go inside
 ```
 cd ..
 git clone RecapRepo RecapCloned
@@ -76,19 +76,19 @@ View the config file in the .git folder.
 ### Exercise 5: simulating central repo with two locals
 We're now going to pretend we have two people collaborating, using a central repository to manage the workflow.
 
-In your RR_git2 directory create a new, bare repository called "CentralRepo"\
+In your RR_3 directory create a new, bare repository called "CentralRepo"\
 (Remember to use the appropriate option when initiating the repository!)
 ```
-cd RR_git2
+cd RR_3
 git init --bare CentralRepo
 ```
 
-In your RR_git2 directory create a clone of the CentralRepo, named Dev1
+In your RR_3 directory create a clone of the CentralRepo, named Dev1
 ```
 git clone CentralRepo Dev1
 ```
 
-In your RR_git2 directory create a clone of the CentralRepo, named Dev2
+In your RR_3 directory create a clone of the CentralRepo, named Dev2
 ```
 git clone CentralRepo Dev2
 ```
