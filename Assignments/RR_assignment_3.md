@@ -3,6 +3,11 @@
 
 !Important note: Do NOT use PowerShell for this task, and if you do, you need to change the encoding of each file to UTF-8 by typing `Set-Content -Path text3.txt -Encoding utf8`
 
+I you're using Git Bash and haven't set the default editor to your code editor, you may want to set `nano` as default (instead of `vim`):
+```
+git config --global core.editor "nano"
+```
+
 ### Git commands: working with a central repository
 
 `git init --bare` to create barebones for a central repository (with no initial commits)
