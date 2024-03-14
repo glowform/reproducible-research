@@ -39,6 +39,8 @@ from dr Wojciech Hardy: https://hackmd.io/@WHardy/RR2024
 
 ## Assignments
 
+All assignments need to be delivered by midnight on the day of the class.
+
 22.02.2024 (DS)/26.02(QF) - Assignment 1. Create your github profile (fill up the name and surname), go to this repository and star it.
 
 04.03.2024 (QF)/07.03(DS) - Assignment 2. [ Link to instructions](https://github.com/glowform/reproducible-research/blob/main/Assignments/RR_assignment_2.md)
