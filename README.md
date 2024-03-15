@@ -32,9 +32,9 @@ The project needs to be an **empirical reasearch** (for example, data analysis a
 from dr Wojciech Hardy: https://hackmd.io/@WHardy/RR2024
 
 ## Annoucements
-(QF) 19.02.2024 - Classes moved to another date: 13.03.2024 18:30 \
-(DS) 29.02.2024 - Classes moved to another date: tbd \
-(DS) We need to move 28.03 due to rector hours: tbd
+~~(QF) 19.02.2024 - Classes moved to another date: 13.03.2024 18:30~~ \
+(DS) 29.02.2024 - Classes moved to another date: 27.03.2024, 16:30 and 18:15
+(DS) Classes moved from 28.03 due to rector hours to: 29.05.2024, 16:30 and 18:15
 
 
 ## Assignments
