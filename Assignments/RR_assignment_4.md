@@ -129,6 +129,8 @@ Check how to stage, commit, push and pull.
 Use the terminal (`View -> Terminal`) for more nuanced operations.\
 You can use the terminal the same way you used Bash.
 
+If you want you can also play around with Github Desktop.
+
 ## Assignment:
 
 - Send me (j.michankow@uw.edu.pl) a `git log` of your Exercise 2 
