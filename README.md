@@ -31,6 +31,12 @@ The project needs to be an **empirical reasearch** (for example, data analysis a
 
 from dr Wojciech Hardy: https://hackmd.io/@WHardy/RR2024
 
+## Generative AI Rules & Plagiarism
+
+Use of generative AI is allowed only to **help** you with your coding. Any parts of the code that have been generated need to clearly marked by comments in the code, where you need to state the scope of the support the type of AI model and its version.\
+Plagiarism is not tolerated in any form (including self-plagiarism). You are not allowed to copy parts from one project to another and you always need to provide an exact source.
+
+
 ## Annoucements
 ~~(QF) 19.02.2024 - Classes moved to another date: 13.03.2024 18:30~~ \
 (DS) 29.02.2024 - Classes moved to another date: 29.05.2024, 15:00 and 16:45 \
