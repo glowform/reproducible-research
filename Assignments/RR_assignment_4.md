@@ -114,7 +114,7 @@ You should now have a "Git" tab in top-right corner. Check it out.\
 Use the terminal for more nuanced operations.\
 You can use the terminal the same way you used Bash.
 
-### Using GitHub with RStudio
+### Using GitHub with VSCode
 
 Open VSCode\
 Create a new project with version control (Git).
