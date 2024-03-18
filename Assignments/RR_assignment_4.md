@@ -36,9 +36,7 @@ Let's start with a Readme.md file (check the relevant box).
 
 This will initiate a non-empty repository.
 
-Copy the HTTPS URL.
-
-At your Repository, click the green code button and copy the HTTPS URL.
+Copy the HTTPS URL: at your Repository, click the green code button and copy the HTTPS URL.
 
 Prepare some space (a folder) for your repository and clone it.
 
@@ -80,9 +78,7 @@ Click the 'New'  button at GitHub.
 **Don't start with any of the standard files!** You will then initiate a repository without a commit history (avoidng a conflict of two unrelated commit histories).
 
 
-Copy the clone URL.
-
-At your bare repository, click the green code button and copy the HTTPS URL.
+Copy the clone URL: at your bare repository, click the green code button and copy the HTTPS URL.
 
 
 Set up a connection with the remote repository.
