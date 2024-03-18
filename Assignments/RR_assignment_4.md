@@ -14,7 +14,7 @@ etc.
 
 ### Authentication & Passwords
 
-We might have to go through some connection issues on our first go. Here's a good reference.
+We might have to go through some connection issues on our first go. 
 
 In principle, Git might ask you for authentication when you first connect with GitHub from your computer. It might be enough to log in via browser (depends on git version).
 
