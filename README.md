@@ -33,7 +33,8 @@ from dr Wojciech Hardy: https://hackmd.io/@WHardy/RR2024
 
 ## Generative AI Rules & Plagiarism
 
-Use of generative AI is allowed only to **help** you with your coding. Any parts of the code that have been generated need to clearly marked by comments in the code, where you need to state the scope of the support the type of AI model and its version.\
+Use of generative AI is allowed only to **help** you with your coding. Any parts of the code that have been generated need to clearly marked by comments in the code, where you need to state the scope of the support the type of AI model and its version.
+
 Plagiarism is not tolerated in any form (including self-plagiarism). You are not allowed to copy parts from one project to another and you always need to provide an exact source.
 
 
