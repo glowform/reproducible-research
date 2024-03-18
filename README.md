@@ -18,7 +18,7 @@ https://meet.google.com/ici-ezxv-zjg
   
  Subject of your research and team members, to be send via email. Subject needs to be a research related to your major (QF or DS). Examples are included in the theoretical slides linked below (at the end of the presentation).
 
-**Presentation**: (QF) 22.04.2024 / (DS) 25.04
+**Presentation**: (QF) 29.04.2024 / (DS) 25.04
 
 Around 5 mins, the presentation need to include slides with title page with team members, why you chose the subject, how you want to solve the problem, short description of the tools you are going to use, and short description of each team member responsibilities. All team members must be present during the presentation (but only one person does the actual presentation).
 
