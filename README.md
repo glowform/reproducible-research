@@ -16,7 +16,7 @@ https://meet.google.com/ici-ezxv-zjg
 
 **Project proposal**: (QF) 18.03.2024 / (DS) 21.03
   
- Subject of your research and team members, to be send via email. Subject needs to be a research related to your major (QF or DS). Examples are included in the theoretical slides linked below (at the end of the presentation).
+ Subject of your research and team members (3 or 4), to be send via email. Subject needs to be a research related to your major (QF or DS). Examples are included in the theoretical slides linked below (at the end of the presentation).
 
 **Presentation**: (QF) 29.04.2024 / (DS) 25.04
 
