@@ -75,6 +75,10 @@ You can do so through the pull requests tab or by clicking the contribute button
 
 Do it now with the course repository.
 
+## Resources
+
+[GitHub Projects](https://docs.github.com/en/issues/planning-and-tracking-with-projects/learning-about-projects/quickstart-for-projects)
+
 ### Question
 
 Is there anything specific you'd like to learn during this course?
