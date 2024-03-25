@@ -3,6 +3,10 @@
 
 Working with poblic repositories and contributing your changes.
 
+**Forks** are copies of a repository created by users to freely experiment with changes without affecting the original project. 
+
+**Branches** are different versions of a project within a repository, allowing for parallel development of features or fixes without altering the main codebase until changes are merged.
+
 ### Exercise 1 - Forking and getting updates
 
 Choose an existing GitHub repository (someone else's!) and fork it.
@@ -70,6 +74,10 @@ In your repository you can grab the changes from its source. But you can also tr
 You can do so through the pull requests tab or by clicking the contribute button.
 
 Do it now with the course repository.
+
+### Question
+
+Is there anything specific you'd like to learn during this course?
 
 
 ## Acknowledgements
