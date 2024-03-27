@@ -1,7 +1,7 @@
 
 ## Git basics - forking and contributing
 
-Working with poblic repositories and contributing your changes.
+Working with public repositories and contributing your changes.
 
 **Forks** are copies of a repository created by users to freely experiment with changes without affecting the original project. 
 
