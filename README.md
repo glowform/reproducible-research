@@ -58,3 +58,5 @@ All assignments need to be delivered by midnight on the day of the class.
 18.03.2024 (QF)/21.03(DS) - Assignment 4. [ Link to instructions](https://github.com/glowform/reproducible-research/blob/main/Assignments/RR_assignment_4.md)
 
 25.03.2024 (QF)/27.03(DS) - Assignment 5. [ Link to instructions](https://github.com/glowform/reproducible-research/blob/main/Assignments/RR_assignment_5.md)
+
+04.04.2024 (DS)/08.04(QF) - Assignment 6. [ Link to instructions](https://github.com/glowform/reproducible-research/blob/main/Assignments/RR_assignment_6.md)
