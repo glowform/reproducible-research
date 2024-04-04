@@ -236,8 +236,8 @@ Here you can:
 (and turn it into a new branch if you want to keep it)
 
 ## Assignment 
-
-Imagine this is your repository
+1. Send me `git log` and `git branch -l` of your exercise 2
+2. Imagine this is your repository
 
 <img src="https://hackmd.io/_uploads/r1cHiXvAT.png " width="700">
 
