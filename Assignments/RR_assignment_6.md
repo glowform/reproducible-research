@@ -91,7 +91,7 @@ When you switch between branches, Git 'refreshes' your staging area and working 
 
 Let's start with a simple commit history:
 
-<img src="https://i.imgur.com/UJfRiNf.png " width="700">
+<img src="https://i.imgur.com/gnxYmVD.png " width="700">
 
 New commits affect only the current branch
 
