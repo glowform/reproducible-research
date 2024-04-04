@@ -181,7 +181,7 @@ Let's first move to the branch we want to move (`git checkout feature`)
 
 <img src="https://i.imgur.com/CH0mZFn.png " width="700">
 
-Then `git rebase main`
+Then `git rebase main` to reapply the commits
 
 <img src="https://i.imgur.com/rZVs88x.png " width="700">
 
