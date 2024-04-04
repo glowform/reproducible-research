@@ -6,7 +6,7 @@
 
 Part of the typical workflow
 
-![Branches overview](https://i.imgur.com/gUWMU0q.png "Branches overview")
+<img src="https://i.imgur.com/gUWMU0q.png " width="700">
 
 #### Branches – advantages
 
@@ -22,7 +22,7 @@ Part of the typical workflow
 
 Note: Branches can also have branches
 
-![Branches overview](https://i.imgur.com/9G6xsil.png "Branches overview")
+<img src="https://i.imgur.com/9G6xsil.png " width="700">
 
 #### How do they work?
 Recall master or main branch is an indicator
@@ -35,7 +35,7 @@ Lets see what happens step-by-step
 
 1. We start with one branch: `main`
 
-![Branches overview](https://i.imgur.com/mtTy9kH.png "Branches overview")
+<img src="https://i.imgur.com/mtTy9kH.png " width="700">
 
 `HEAD` points to 'where we currently are'
 
@@ -43,14 +43,14 @@ Lets see what happens step-by-step
 
 2. We create a new branch that we name "feature" with `git branch feature`
 
-![Branches overview](https://i.imgur.com/gnxYmVD.png "Branches overview")
+<img src="https://i.imgur.com/gnxYmVD.png " width="700">
 
 This creates a new indicator pointing to where we are.
 But HEAD still points to the main branch.
 
 3. We use `git checkout feature` to get to the new "feature" branch
 
-![Branches overview](https://i.imgur.com/u3DVeC4.png "Branches overview")
+<img src="https://i.imgur.com/u3DVeC4.png " width="700">
 
 The HEAD indicator goes to the feature branch.
 
@@ -91,33 +91,33 @@ When you switch between branches, Git 'refreshes' your staging area and working 
 
 Let's start with a simple commit history:
 
-![Branches overview](https://i.imgur.com/UJfRiNf.png "Branches overview")
+<img src="https://i.imgur.com/UJfRiNf.png " width="700">
 
 New commits affect only the current branch
 
-![Branches overview](https://i.imgur.com/F0hSnDf.png "Branches overview")
+<img src="https://i.imgur.com/F0hSnDf.png " width="700">
 
 New commits affect only the current branch
 
-![Branches overview](https://i.imgur.com/V4BkVu4.png "Branches overview")
+<img src="https://i.imgur.com/V4BkVu4.png " width="700">
 
 In a big project, e.g. if you're the one working on the feature, changes to main might not be yours (other people push their features/fixes, etc. in the meantime).
 
 Let's switch to the feature branch with `git checkout feature`
 
-![Branches overview](https://i.imgur.com/Ii677W9.png "Branches overview")
+<img src="https://i.imgur.com/Ii677W9.png " width="700">
 
 And add some commits while in there
 
-![Branches overview](https://i.imgur.com/yph7crB.png "Branches overview")
+<img src="https://i.imgur.com/yph7crB.png " width="700">
 
 One more
 
-![Branches overview](https://i.imgur.com/CH0mZFn.png "Branches overview")
+<img src="https://i.imgur.com/CH0mZFn.png " width="700">
 
 At any point you can return to the main with `git checkout main`
 
-![Branches overview](https://i.imgur.com/xp7F7GK.png "Branches overview")
+<img src="https://i.imgur.com/xp7F7GK.png " width="700">
 
 ## Exercise 2
 
@@ -149,11 +149,11 @@ Run `git status` on the feature1 branch, push the changes
 
 You might recall `merge` from how we united main with origin/main.
 
-![Branches overview](https://i.imgur.com/3yJ2iE8.png "Branches overview")
+<img src="https://i.imgur.com/3yJ2iE8.png" width="700">
 
 While in main do `git merge feature`
 
-![Branches overview](https://i.imgur.com/QoluIh0.png "Branches overview")
+<img src="https://i.imgur.com/QoluIh0.png" width="700">
 
 Recall: merge creates a new commit.
 
@@ -161,7 +161,7 @@ You can still work on your feature branch
 
 It doesn't include the merge (unless you also do `git merge main` while on the branch feature).
 
-![Branches overview](https://i.imgur.com/RwCSUiK.png "Branches overview")
+<img src="https://i.imgur.com/RwCSUiK.png " width="700">
 
 Let's go back to the terminal
 
@@ -175,15 +175,15 @@ Conflict resolution is the same as we once did.
 
 Rebasing is making your branch start from a different point
 
-![Branches overview](https://i.imgur.com/NLfjohh.png "Branches overview")
+<img src="https://i.imgur.com/NLfjohh.png " width="700">
 
 Let's first move to the branch we want to move (`git checkout feature`)
 
-![Branches overview](https://i.imgur.com/CH0mZFn.png "Branches overview")
+<img src="https://i.imgur.com/CH0mZFn.png " width="700">
 
 Then `git rebase main`
 
-![Branches overview](https://i.imgur.com/rZVs88x.png "Branches overview")
+<img src="https://i.imgur.com/rZVs88x.png " width="700">
 
 Important: rebase destroys original commits and creates new ones! Probably not a good thing if the original ones were shared with others or in a remote repository!
 
@@ -191,7 +191,7 @@ Also, you don't need to rebase only within the same branch
 
 ### Ok, now assume you start with this:
 
-![Branches overview](https://i.imgur.com/nAkSXAw.png "Branches overview")
+<img src="https://i.imgur.com/nAkSXAw.png " width="700">
 
 Possible troublesome situations:
 
@@ -207,7 +207,7 @@ git checkout feature2
 git rebase --onto main feature1 feature2
 git rebase --onto <new-base> <old-base> <moved-branch>
 ```
-![Branches overview](https://i.imgur.com/9DqWc03.png "Branches overview")
+<img src="https://i.imgur.com/9DqWc03.png " width="700">
 
 ### Other fun stuff: detaching HEAD
 
@@ -215,13 +215,13 @@ What if we move our HEAD?
 
 Check [this tutorial](https://www.cloudbees.com/blog/git-detached-head) for an easy step-by-step description (the image comes from there)
 
-![Branches overview](https://i.imgur.com/OEZDXFS.png "Branches overview")
+<img src="https://i.imgur.com/OEZDXFS.png " width="700">
 
 Typically HEAD points to the branch ("you're currently here").
 
 You can point it to an older commit instead: git checkout 87ec91d
 
-![Branches overview](https://i.imgur.com/4K9THmq.png "Branches overview")
+<img src="https://i.imgur.com/4K9THmq.png " width="700">
 
 This puts you in a "detached HEAD state".
 
@@ -231,7 +231,7 @@ Here you can:
 - check what was done in this commit
 - create an alternate history:
 
-![Branches overview](https://i.imgur.com/9qlCKL6.png "Branches overview")
+<img src="https://i.imgur.com/9qlCKL6.png " width="700">
 
 (and turn it into a new branch if you want to keep it)
 
@@ -239,7 +239,7 @@ Here you can:
 
 Imagine this is your repository
 
-![Branches overview](https://hackmd.io/_uploads/r1cHiXvAT.png "Branches overview")
+<img src="https://hackmd.io/_uploads/r1cHiXvAT.png " width="700">
 
 
 You do the following:
