@@ -20,7 +20,7 @@ Part of the typical workflow
 
 - Separate teams can work at the same time on: larger patches, hotfixes, new features, optimisation, etc.
 
-Note: Branches can also have branches
+Note: Branches can also have branches (see https://gitbetter.substack.com/p/how-to-work-in-multiple-git-branches)
 
 <img src="https://i.imgur.com/9G6xsil.png " width="700">
 
