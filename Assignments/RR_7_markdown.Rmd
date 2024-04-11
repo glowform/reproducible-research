@@ -1,0 +1,86 @@
+---
+title: "R Markdown Example"
+author: "Jakub Michańków"
+date: "11/04/2024"
+output:
+  html_document: default
+  word_document: default
+  pdf_document: default
+---
+
+# Combined R Markdown Example
+
+This is a simple R Markdown document with code chunks and a plot included.
+
+Use `Ctrl+Alt+I` to create new code chunk
+
+## R Code Chunk with Plot
+
+```{r}
+# Generate some random data
+set.seed(123)
+x <- rnorm(100)
+
+# Summary statistics
+summary(x)
+
+```
+
+## Plot histogram
+
+```{r}
+hist(x, main = "Histogram of Random Data", xlab = "Value")
+```
+
+## Loading and Exploring Data
+```{r}
+# Load a sample dataset
+data(iris)
+
+# View the first few rows of the dataset
+head(iris)
+```
+
+## Data visualization
+
+```{r}
+# Scatter plot of iris dataset
+plot(iris$Sepal.Length, iris$Sepal.Width, 
+     main = "Sepal Length vs. Sepal Width",
+     xlab = "Sepal Length", ylab = "Sepal Width", 
+     col = iris$Species)
+legend("topright", legend = levels(iris$Species), col = 1:3, pch = 1)
+```
+
+## Linear Regression
+
+```{r}
+# Fit a linear regression model
+lm_model <- lm(Petal.Width ~ Petal.Length, data = iris)
+
+# Summary of the model
+summary(lm_model)
+
+# Plot the regression line
+plot(iris$Petal.Length, iris$Petal.Width, 
+     main = "Petal Width vs. Petal Length with Regression Line",
+     xlab = "Petal Length", ylab = "Petal Width")
+abline(lm_model, col = "red")
+```
+
+## Interactive Plot (Using Plotly)
+
+```{r}
+# Load the plotly library
+library(plotly)
+
+# Scatter plot using plotly
+plot_ly(iris, x = ~Petal.Length, y = ~Petal.Width, color = ~Species,
+        type = 'scatter', mode = 'markers', 
+        marker = list(size = 10)) %>%
+  layout(title = "Interactive Scatter Plot: Petal Width vs. Petal Length",
+         xaxis = list(title = "Petal Length"),
+         yaxis = list(title = "Petal Width"))
+```
+
+
