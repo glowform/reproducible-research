@@ -60,7 +60,7 @@ Final output – .html/tex/pdf/others
 
 (Note: it was similar for RMarkdown, with Rmd instead of qmd)
 
-Make sure you have quarto installed (`install_packages("quarto")` and `library(quarto)`)
+Make sure you have quarto installed (`install.packages("quarto")` and `library(quarto)`)
 
 [ Link to the file](https://github.com/glowform/reproducible-research/blob/main/Assignments/RR_7_quarto.qmd)
 
