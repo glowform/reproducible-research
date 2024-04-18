@@ -24,6 +24,7 @@ Then create a short report (you can copy the content from Wikipedia or other pag
 7.  Make sure your report looks nice -\> this time we're mostly interested in the output and not necessarily the codes used to achieve it.
 8.  `render` your report and make sure everything is displaying properly.
 9.  Commit the changes and push them to a Github repository.
+10.  Send me a link to the repo by email.
 
 
 
