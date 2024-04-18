@@ -13,15 +13,16 @@ Then create a short report (you can copy the content from Wikipedia or other pag
 
 (try doing more than one commit for this, i.e. divide your work into steps!)
 
-1.  A brief description of the show (use *italics* for names).
-2.  A photo with the logo or a shot from the show itself.
-3.  A summary of some basic statistics (e.g. on viewership or ratings).
-4.  A graph of the viewership over time.
-5.  A graph of the episode-to-episode (or season-to-season) changes in viewership.
-6.  A short description of the observed changes that includes inline references to numbers (e.g. the viewership decreased by `insert_calculated_number` between seasons 3 and 5).
-7.  Make sure your report looks nice -\> this time we're mostly interested in the output and not necessarily the codes used to achieve it.
-8.  `render` your report and save it in the relevant folder of your repo.
-9.  Commit the changes and push them to Github.
+1.  Create a new repository.
+2.  A brief description of the show (use *italics* for names).
+3.  A photo with the logo or a shot from the show itself.
+4.  A summary of some basic statistics (e.g. on viewership or ratings).
+5.  A graph of the viewership over time.
+6.  A graph of the episode-to-episode (or season-to-season) changes in viewership.
+7.  A short description of the observed changes that includes inline references to numbers (e.g. the viewership decreased by `insert_calculated_number` between seasons 3 and 5).
+8.  Make sure your report looks nice -\> this time we're mostly interested in the output and not necessarily the codes used to achieve it.
+9.  `render` your report and make sure everything is displaying properly.
+10.  Commit the changes and push them to a Github repository.
 
 
 
