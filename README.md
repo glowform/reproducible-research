@@ -47,7 +47,7 @@ Plagiarism is not tolerated in any form (including self-plagiarism). You are not
 
 ## Assignments
 
-All assignments need to be delivered by midnight on the day of the class.
+All assignments need to be delivered by midnight on the next day after the class.
 
 22.02.2024 (DS)/26.02(QF) - Assignment 1. Create your github profile (fill up the name and surname), go to this repository and star it.
 
