@@ -47,7 +47,7 @@ Plagiarism is not tolerated in any form (including self-plagiarism). You are not
 
 ## Assignments
 
-All assignments need to be delivered by midnight on the day of the class.
+All assignments need to be delivered by midnight on the next day after the class.
 
 22.02.2024 (DS)/26.02(QF) - Assignment 1. Create your github profile (fill up the name and surname), go to this repository and star it.
 
@@ -60,3 +60,7 @@ All assignments need to be delivered by midnight on the day of the class.
 25.03.2024 (QF)/27.03(DS) - Assignment 5. [ Link to instructions](https://github.com/glowform/reproducible-research/blob/main/Assignments/RR_assignment_5.md)
 
 04.04.2024 (DS)/08.04(QF) - Assignment 6. [ Link to instructions](https://github.com/glowform/reproducible-research/blob/main/Assignments/RR_assignment_6.md)
+
+11.04.2024 (DS)/15.04(QF) - Assignment 7. [ Link to instructions](https://github.com/glowform/reproducible-research/blob/main/Assignments/RR_assignment_7.md)
+
+18.04.2024 (DS)/22.04(QF) - Assignment 8. [ Link to instructions](https://github.com/glowform/reproducible-research/blob/main/Assignments/RR_assignment_8.md)

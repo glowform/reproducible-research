@@ -1,0 +1,129 @@
+---
+title: "Quarto Example"
+author: "Jakub Michańków"
+date: "11/04/2024"
+output:
+  quarto::quarto_html: default
+  quarto::quarto_pdf: default
+  quarto::quarto_word: default
+---
+
+# Quarto Example
+
+This is an example of a Quarto document showcasing its features.
+
+## Introduction
+
+Quarto is a modern document format that allows you to seamlessly integrate code, text, and visualizations.
+
+## Code Chunks
+
+### R Code Chunk
+
+```{r}
+# Generate some random data
+set.seed(123)
+x <- rnorm(100)
+
+# Summary statistics
+summary(x)
+```
+
+### Python code in Quarto
+
+```{python}
+import numpy as np
+
+# Generate random data
+np.random.seed(123)
+y = np.random.randn(100)
+
+# Summary statistics
+print(np.mean(y))
+```
+
+### Inline Code
+
+You can also include inline code, like this: `r mean(x)`.
+
+
+### Equations
+
+Quarto supports LaTeX-style equations:
+
+The formula for the area of a circle is $A = \pi r^2$.
+
+## Data Visualization
+
+### Plotting with R
+
+```{r}
+# Load the iris dataset
+data(iris)
+
+# Scatter plot of iris dataset
+plot(iris$Sepal.Length, iris$Sepal.Width, 
+     main = "Sepal Length vs. Sepal Width",
+     xlab = "Sepal Length", ylab = "Sepal Width", 
+     col = iris$Species)
+legend("topright", legend = levels(iris$Species), col = 1:3, pch = 1)
+```
+
+### Plotting with Python (Using Matplotlib)
+
+```{python}
+# Import necessary libraries
+import matplotlib.pyplot as plt
+import numpy as np
+
+# Generate random data
+x = np.random.normal(0, 1, 100)
+y = np.random.normal(0, 1, 100)
+
+# Scatter plot
+plt.scatter(x, y, color='blue')
+plt.title('Scatter Plot of Random Data')
+plt.xlabel('X')
+plt.ylabel('Y')
+plt.show()
+
+```
+
+### Tables
+
+You can also create tables in Quarto:
+
+
+```{r}
+# Create a sample data frame
+df <- data.frame(
+  Name = c("Alice", "Bob", "Charlie"),
+  Age = c(25, 30, 35),
+  Country = c("USA", "UK", "Canada")
+)
+
+# Display the data frame
+knitr::kable(df, caption = "Sample Data")
+
+```
+
+### Interactive Elements
+
+Interactive Plot with Plotly
+
+
+```{r}
+# Load the plotly library
+library(plotly)
+
+# Scatter plot using plotly
+plot_ly(iris, x = ~Petal.Length, y = ~Petal.Width, color = ~Species,
+        type = 'scatter', mode = 'markers', 
+        marker = list(size = 10)) %>%
+  layout(title = "Interactive Scatter Plot: Petal Width vs. Petal Length",
+         xaxis = list(title = "Petal Length"),
+         yaxis = list(title = "Petal Width"))
+
+```
+
+
