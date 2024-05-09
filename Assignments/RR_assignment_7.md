@@ -71,7 +71,7 @@ Make sure you have quarto installed (`install.packages("quarto")` and `library(q
 
 ## Assignment 
 1. Send me a link to your project repository (the one you're doing for this course), with your teammates added as collaborators.
-2. Send me the html/pdf output of the example files we did today. Change some of the numeric values in the code. Make sure that it states you're the author and it has todays date.
+2. Send me the html(zipped with images)/pdf/ipynb output of the example files we did today. Change some of the numeric values in the code. Make sure that it states you're the author and it has todays date.
 
 
 
