@@ -27,7 +27,7 @@ Check the `presentation.tex` and `RR9.rmd` file for examples of presentations in
 
 ## Assignment
 
-Change the article tex document with your details. Change the equations (to something completely different) and an image. Also change the citation to load the second article (or add some bibliography entries of your own).
+Change the article tex document with your details. Change the equations (to something completely different) and an image. Add a model like linear regression or simple ML to RMD presentation. Also change the citation to load the second article (or add some bibliography entries of your own).
 
 Do the same steps for presentation files (both tex and RMD).
 
