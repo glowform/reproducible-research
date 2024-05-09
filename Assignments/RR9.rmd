@@ -1,11 +1,13 @@
 ---
-title: "Example Slides with Bibliography"
+title: "Introduction to LaTeX with R Markdown"
 author: "Your Name"
 date: "Date"
-output:
-  quarto::pdf_presentation:
+output: 
+  beamer_presentation:
     theme: "Madrid"
-    bibliography: references.bib
+    slide_level: 2
+    keep_tex: true
+bibliography: references.bib
 ---
 
 ## Introduction
