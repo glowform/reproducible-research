@@ -1,0 +1,66 @@
+\documentclass{beamer} % Beamer document class for slides
+
+%\usepackage{natbib} - natbib is not working in beamer
+
+\usepackage[style=apa]{biblatex}
+\addbibresource{references.bib}
+
+\usetheme{Madrid} % Choose a theme
+
+\title{Introduction to LaTeX} 
+\author{Jakub Michańków} 
+\date{\today} 
+
+\begin{document}
+
+\begin{frame} % Title frame
+  \titlepage % Title page generated automatically based on \title, \author, and \date
+\end{frame}
+
+\begin{frame}{Outline} 
+  \tableofcontents 
+\end{frame}
+
+\section{Introduction} % First section
+\begin{frame}{Introduction} % Introduction frame
+  \begin{itemize}
+    \item LaTeX is a typesetting system.
+    \item It is commonly used for technical and scientific documents.
+    \item Beamer is a LaTeX document class for creating presentations.
+  \end{itemize}
+\end{frame}
+
+\section{Basic Commands} % Second section
+\begin{frame}{Basic Commands} % Basic Commands frame
+  \begin{itemize}
+    \item Use \textbackslash documentclass\{beamer\} to specify the document class.
+    \item Choose a theme using \textbackslash usetheme\{\}.
+    \item Create frames using the \textbackslash begin\{frame\} and \textbackslash end\{frame\} commands.
+    \item And an example of citation \cite{einstein1905}
+  \end{itemize}
+\end{frame}
+
+\section{Examples} % Third section
+\begin{frame}{Examples} % Examples frame
+  \begin{itemize}
+    \item See previous examples for creating content such as text, equations, lists, figures, tables, references, and citations.
+    \item These elements can be included in slides just like in regular LaTeX documents.
+  \end{itemize}
+\end{frame}
+
+\section{Conclusion} % Fourth section
+\begin{frame}{Conclusion} % Conclusion frame
+  \begin{itemize}
+    \item LaTeX and Beamer provide powerful tools for creating professional-looking presentations.
+    \item Experiment with different themes and layouts to customize your slides.
+    \item Practice creating slides to become more familiar with the process.
+  \end{itemize}
+\end{frame}
+
+
+\section{References} 
+\begin{frame}{References}
+    \printbibliography
+\end{frame}
+
+\end{document}
