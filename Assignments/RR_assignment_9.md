@@ -23,11 +23,11 @@ Basic Commands: Let's start with some basic LaTeX commands in Overleaf
 
 ## Presentations
 
-Check the presentation.tex and RR9.rmd file for examples of presentations in LaTeX and RMD
+Check the `presentation.tex` and `RR9.rmd` file for examples of presentations in LaTeX and RMD
 
 ## Assignment
 
-Change the article tex document with your details. Change the equations and an image. Also change the citation to load the second article (or add some bibliography entries of your own).
+Change the article tex document with your details. Change the equations (to something completely different) and an image. Also change the citation to load the second article (or add some bibliography entries of your own).
 
 Do the same steps for presentation files (both tex and RMD).
 
