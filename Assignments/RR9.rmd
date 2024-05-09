@@ -1,0 +1,46 @@
+---
+title: "Example Slides with Bibliography"
+author: "Your Name"
+date: "Date"
+output:
+  quarto::pdf_presentation:
+    theme: "Madrid"
+    bibliography: references.bib
+---
+
+## Introduction
+
+This is an example of creating slides with R Markdown.
+
+## Basic Equations
+
+Here is a simple equation:
+
+\[
+f(x) = ax^2 + bx + c
+\]
+
+## R Code Example
+
+```{r}
+# Generate some random data
+set.seed(123)
+x <- rnorm(100)
+y <- 2*x + rnorm(100)
+
+```
+
+## R Code Example
+
+```{r, echo = FALSE}
+# Plot the data
+plot(x, y)
+```
+
+## Citations
+
+Here's a citation example [@goossens1994latex].
+
+## Bibliography
+
+\bibliography{references}

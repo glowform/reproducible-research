@@ -1,0 +1,113 @@
+\documentclass{article}
+\usepackage{graphicx} % Required for inserting images
+\usepackage{amsmath}
+\usepackage{float}
+\usepackage{natbib}
+
+%\bibliographystyle{plain}
+\bibliographystyle{abbrvnat}
+
+\title{RR project}
+\author{Jakub Michańków}
+\date{May 2024}
+
+\begin{document}
+
+\maketitle
+
+\section{Introduction}
+
+This is the introduction section.
+
+\subsection{Subsection}
+
+This is a subsection within the introduction.
+
+\subsection{Math equations}
+
+When working with more advanced equations in LaTeX, you can use various environments depending on the structure and formatting you require. The equation environment is commonly used for single, numbered equations. However, for more complex structures like multiline equations or aligned equations, you can use other environments like align, gather, split, etc.
+
+\[
+E = mc^2
+\]
+
+\[ % Another way to write equations
+\int_{a}^{b} x^2 \, dx
+\]
+
+Single Equations with equation Environment
+
+\begin{equation}
+    f(x) = ax^2 + bx + c
+\end{equation}
+
+\vspace{20pt}
+
+Multiple Aligned Equations with align Environment
+
+\begin{align}
+    f(x) &= ax^2 + bx + c \\
+    g(x) &= dx^3 + ex^2 + fx + g
+\end{align}
+
+Multiline Equations with gather Environment
+
+\begin{gather}
+    f(x) = ax^2 + bx + c \\
+    g(x) = dx^3 + ex^2 + fx + g
+\end{gather}
+
+Splitting Equations with split Environment
+
+\begin{equation}
+    \begin{split}
+        f(x) &= ax^2 + bx + c \\
+        g(x) &= dx^3 + ex^2 + fx + g
+    \end{split}
+\end{equation}
+
+\subsection{Lists}
+
+\begin{itemize}
+  \item First item
+  \item Second item
+    \begin{itemize}
+      \item Sub-item 1
+      \item Sub-item 2
+    \end{itemize}
+  \item Third item
+     \begin{enumerate}
+      \item Sub-item A
+      \item Sub-item B
+    \end{enumerate}
+    
+\end{itemize}
+
+\subsection{Figures and tables}
+
+\begin{figure}[H]
+  \includegraphics[width=\linewidth]{overleaf_wide_colour_light_bg.png}
+  \caption{An example image}
+\end{figure}
+
+\begin{table}[H]
+  \centering
+  \begin{tabular}{|c|c|}
+    \hline
+    Item & Quantity \\
+    \hline
+    Apples & 3 \\
+    Oranges & 5 \\
+    \hline
+  \end{tabular}
+  \caption{An example table}
+\end{table}
+
+And now an example of a citation \cite{goossens1994latex} in text.
+
+
+
+%% Doesnt need section
+\bibliography{references.bib}
+
+\end{document}
