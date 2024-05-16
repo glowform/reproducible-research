@@ -489,3 +489,7 @@ a) combine the effects
 b) create a funnel plot (what do you see?)
 c) check if methods / quality affect the results
 d) does author gender affect it?
+
+## Example scripts
+
+Here are some [example scripts](https://github.com/glowform/reproducible-research/tree/main/Assignments/RR_10_Metaanalysis/scripts) in both python (not complete) and R.
