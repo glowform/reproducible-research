@@ -109,7 +109,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#metaanalysis" id="toc-metaanalysis" class="nav-link active" data-scroll-target="#metaanalysis">Metaanalysis</a></li>
+  <li><a href="#meta-analysis" id="toc-meta-analysis" class="nav-link active" data-scroll-target="#meta-analysis">Meta-analysis</a>
+  <ul class="collapse">
+  <li><a href="#goals" id="toc-goals" class="nav-link" data-scroll-target="#goals">Goals</a></li>
+  </ul></li>
   <li><a href="#some-notes" id="toc-some-notes" class="nav-link" data-scroll-target="#some-notes">Some notes</a></li>
   <li><a href="#step-1-choosing-your-goal" id="toc-step-1-choosing-your-goal" class="nav-link" data-scroll-target="#step-1-choosing-your-goal">Step 1) Choosing your goal</a>
   <ul class="collapse">
@@ -148,10 +151,23 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 
-<section id="metaanalysis" class="level2">
-<h2 class="anchored" data-anchor-id="metaanalysis">Metaanalysis</h2>
+<section id="meta-analysis" class="level2">
+<h2 class="anchored" data-anchor-id="meta-analysis">Meta-analysis</h2>
 <p><em>a statistical analysis that combines the results of multiple scientific studies.</em> (<a href="https://en.wikipedia.org/wiki/Meta-analysis">Wikipedia</a>)</p>
 <p>Very important in e.g.&nbsp;medicine (where it’s relatively easy to use).</p>
+<p>It’s a powerful statistical technique used to synthesize and analyze findings from multiple independent studies. It allows researchers to combine the results of several studies to draw more robust conclusions than those derived from individual studies alone. Meta-analysis is particularly valuable when individual studies may have limited sample sizes or conflicting results.</p>
+<p>Meta-analysis involves systematically collecting and analyzing data from multiple studies on a specific topic or research question. The goal is to quantitatively summarize the collective evidence, identify patterns, and estimate the overall effect size or relationship between variables across studies.</p>
+<p>Breakdown of some key aspects:</p>
+<p><strong>Study selection</strong>: The first step in meta-analysis is identifying relevant studies. This involves comprehensive literature searches across multiple databases, journals, and other sources to find all relevant research on the topic of interest.</p>
+<p><strong>Inclusion criteria</strong>: Establishing specific criteria for including studies in the meta-analysis. These can be publication date, study design, sample size, and outcome measures. Studies that meet these criteria are included, and those that do not are excluded.</p>
+<p><strong>Data extraction</strong>: Once relevant studies are identified, data extraction involves extracting key information from each study, such as sample sizes, effect sizes, confidence intervals, and other statistics that we think may be relevant.</p>
+<p><strong>Effect size calculation</strong>: Estimate the overall effect size or relationship between variables across studies. Common effect size measures include the mean difference, standardized mean difference (Cohen’s d), odds ratio, correlation coefficient, and risk ratio.</p>
+<p><strong>Weighting and aggregation</strong>: Not all studies contribute equally to the meta-analysis, for example studies with larger sample sizes or greater methodological rigor are typically given more weight in the analysis. Weighted averaging is used to combine effect sizes across studies, taking into account both the effect size and variability.</p>
+<p><strong>Heterogeneity assessment</strong> We assume that studies are not identical but may vary in their methods, populations, and effect sizes. Heterogeneity refers to the degree of variability among study results. Statistical tests, such as the Q-statistic and I^2 statistic, are used to assess heterogeneity and determine whether it is significant.</p>
+<p><strong>Publication Bias evaluation</strong> Publication bias occurs when studies with positive results are more likely to be published than those with null or negative results, leading to an overestimation of the true effect size. Various methods, such as funnel plots and Egger’s regression, are used to assess and adjust for publication bias in meta-analysis.</p>
+<p><strong>Interpretation and reporting</strong> The results of a meta-analysis are typically summarized in a forest plot, which visually displays the effect sizes and confidence intervals of individual studies as well as the overall pooled effect size. Meta-analysts must carefully interpret the findings, considering factors such as study quality, heterogeneity, and potential biases.</p>
+<section id="goals" class="level3">
+<h3 class="anchored" data-anchor-id="goals">Goals</h3>
 <p>Can serve different goals:</p>
 <ol type="1">
 <li>Finding the “true” size of the relationship based on multiple studies.</li>
@@ -166,6 +182,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>Uncovering publication biases (e.g.&nbsp;a meta-analysis of several studies with statistically significant results may conclude that there is not enough evidence)</li>
 </ol>
 <hr>
+</section>
 </section>
 <section id="some-notes" class="level2">
 <h2 class="anchored" data-anchor-id="some-notes">Some notes</h2>

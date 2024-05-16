@@ -21,11 +21,35 @@ library(dplyr)
 #setwd("")
 ```
 
-## Metaanalysis
+## Meta-analysis
 
 *a statistical analysis that combines the results of multiple scientific studies.* ([Wikipedia](https://en.wikipedia.org/wiki/Meta-analysis))
 
 Very important in e.g. medicine (where it's relatively easy to use).
+
+It's a powerful statistical technique used to synthesize and analyze findings from multiple independent studies. It allows researchers to combine the results of several studies to draw more robust conclusions than those derived from individual studies alone. Meta-analysis is particularly valuable when individual studies may have limited sample sizes or conflicting results.
+
+Meta-analysis involves systematically collecting and analyzing data from multiple studies on a specific topic or research question. The goal is to quantitatively summarize the collective evidence, identify patterns, and estimate the overall effect size or relationship between variables across studies.
+
+Breakdown of some key aspects:
+
+**Study selection**: The first step in meta-analysis is identifying relevant studies. This involves comprehensive literature searches across multiple databases, journals, and other sources to find all relevant research on the topic of interest.
+
+**Inclusion criteria**: Establishing specific criteria for including studies in the meta-analysis. These can be publication date, study design, sample size, and outcome measures. Studies that meet these criteria are included, and those that do not are excluded.
+
+**Data extraction**: Once relevant studies are identified, data extraction involves extracting key information from each study, such as sample sizes, effect sizes, confidence intervals, and other statistics that we think may be relevant.
+
+**Effect size calculation**: Estimate the overall effect size or relationship between variables across studies. Common effect size measures include the mean difference, standardized mean difference (Cohen's d), odds ratio, correlation coefficient, and risk ratio.
+
+**Weighting and aggregation**: Not all studies contribute equally to the meta-analysis, for example studies with larger sample sizes or greater methodological rigor are typically given more weight in the analysis. Weighted averaging is used to combine effect sizes across studies, taking into account both the effect size and variability.
+
+**Heterogeneity assessment** We assume that studies are not identical but may vary in their methods, populations, and effect sizes. Heterogeneity refers to the degree of variability among study results. Statistical tests, such as the Q-statistic and I^2 statistic, are used to assess heterogeneity and determine whether it is significant.
+
+**Publication Bias evaluation** Publication bias occurs when studies with positive results are more likely to be published than those with null or negative results, leading to an overestimation of the true effect size. Various methods, such as funnel plots and Egger's regression, are used to assess and adjust for publication bias in meta-analysis.
+
+**Interpretation and reporting** The results of a meta-analysis are typically summarized in a forest plot, which visually displays the effect sizes and confidence intervals of individual studies as well as the overall pooled effect size. Meta-analysts must carefully interpret the findings, considering factors such as study quality, heterogeneity, and potential biases.
+
+### Goals
 
 Can serve different goals:
 
