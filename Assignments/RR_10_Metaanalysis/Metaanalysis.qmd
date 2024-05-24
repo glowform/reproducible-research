@@ -1,0 +1,495 @@
+---
+title: "Metaanalysis in R"
+author: "Jakub Michańków (based on Wojciech Hardy)"
+date: today
+format:  
+  html:
+    theme: lumen
+    toc: true
+    toc_float: true
+title-block-banner: true
+execute:
+  echo: fenced
+---
+
+```{r}
+#| label = "setup",
+#| include = FALSE
+library(meta)
+library(metafor)
+library(dplyr)
+#setwd("")
+```
+
+## Meta-analysis
+
+*a statistical analysis that combines the results of multiple scientific studies.* ([Wikipedia](https://en.wikipedia.org/wiki/Meta-analysis))
+
+Very important in e.g. medicine (where it's relatively easy to use).
+
+It's a powerful statistical technique used to synthesize and analyze findings from multiple independent studies. It allows researchers to combine the results of several studies to draw more robust conclusions than those derived from individual studies alone. Meta-analysis is particularly valuable when individual studies may have limited sample sizes or conflicting results.
+
+Meta-analysis involves systematically collecting and analyzing data from multiple studies on a specific topic or research question. The goal is to quantitatively summarize the collective evidence, identify patterns, and estimate the overall effect size or relationship between variables across studies.
+
+Breakdown of some key aspects:
+
+**Study selection**: The first step in meta-analysis is identifying relevant studies. This involves comprehensive literature searches across multiple databases, journals, and other sources to find all relevant research on the topic of interest.
+
+**Inclusion criteria**: Establishing specific criteria for including studies in the meta-analysis. These can be publication date, study design, sample size, and outcome measures. Studies that meet these criteria are included, and those that do not are excluded.
+
+**Data extraction**: Once relevant studies are identified, data extraction involves extracting key information from each study, such as sample sizes, effect sizes, confidence intervals, and other statistics that we think may be relevant.
+
+**Effect size calculation**: Estimate the overall effect size or relationship between variables across studies. Common effect size measures include the mean difference, standardized mean difference (Cohen's d), odds ratio, correlation coefficient, and risk ratio.
+
+**Weighting and aggregation**: Not all studies contribute equally to the meta-analysis, for example studies with larger sample sizes or greater methodological rigor are typically given more weight in the analysis. Weighted averaging is used to combine effect sizes across studies, taking into account both the effect size and variability.
+
+**Heterogeneity assessment** We assume that studies are not identical but may vary in their methods, populations, and effect sizes. Heterogeneity refers to the degree of variability among study results. Statistical tests, such as the Q-statistic and I^2 statistic, are used to assess heterogeneity and determine whether it is significant.
+
+**Publication Bias evaluation** Publication bias occurs when studies with positive results are more likely to be published than those with null or negative results, leading to an overestimation of the true effect size. Various methods, such as funnel plots and Egger's regression, are used to assess and adjust for publication bias in meta-analysis.
+
+**Interpretation and reporting** The results of a meta-analysis are typically summarized in a forest plot, which visually displays the effect sizes and confidence intervals of individual studies as well as the overall pooled effect size. Meta-analysts must carefully interpret the findings, considering factors such as study quality, heterogeneity, and potential biases.
+
+### Goals
+
+Can serve different goals:
+
+1) Finding the "true" size of the relationship based on multiple studies.
+2) Finding the average effect size based on multiple studies.
+3) Finding what affects the relationship:
+  - study-related (e.g. author effects, journal effects, method effects, variable selection, etc.)
+  - context-related (e.g. changes over time, sample characteristics, country, etc.)
+4) Uncovering publication biases (e.g. a meta-analysis of several studies with statistically significant results may conclude that there is not enough evidence)
+
+---
+
+## Some notes
+
+This is by no means a complete or thorough guide. 
+
+This is an intro to show you some basic techniques and what has to be considered.
+
+There are good tutorials and guidelines online that present more formal requirements for a proper metaanalysis study. 
+
+---
+
+## Step 1) Choosing your goal
+
+There's a variety of tasks that a metaanalysis can fulfill. Often, setting the goal will define how you approach further steps.
+
+---
+
+### Goal: finding the true/combined effect size
+
+One potential goal is to identify a true effect size when all you have is estimations. Depending on the field or issue this might be straightforward (e.g. the methods and approaches are always the same and only the samples differ) or complex (e.g. methods, periods, variables, samples, contexts differ).
+
+In case of complex problems, you might want and need to add any such differences as control variables.
+
+Specific things to consider:
+
+- what might affect a particular estimate.
+
+- are the estimates comparable (e.g. % change vs linear relationship vs odds ratios).
+
+- are you looking for a 'true' universal effect size (the fixed effect approach), or the 'average' effect size (the random effects approach)?
+
+Fig. 1. "Schematic of the __fixed-effect__ model"
+
+![Source: [Borenstein et al., 2010. A basic introduction to fixed-effect and random-effects models for meta-analysis.](https://www.meta-analysis.com/downloads/Intro_Models.pdf)](img/Fixed effect.png)
+
+Fig. 2. "Schematic of the __random-effects__ model"
+
+![Source: [Borenstein et al., 2010. A basic introduction to fixed-effect and random-effects models for meta-analysis.](https://www.meta-analysis.com/downloads/Intro_Models.pdf)](img/Random effect.png)
+
+Note: this has nothing to do with the fixed/random effects in panel models.
+
+------------------------
+
+Consider the cases:
+
+::: {.panel-tabset}
+
+## -> Case 1: a set of studies following the same method
+
+1) [Rob, R. and Waldfogel, J. (2007). Piracy on the Silver Screen. _Journal of Industrial Economics_.](https://onlinelibrary.wiley.com/doi/pdf/10.1111/j.1467-6451.2007.00316.x)
+
+2) [Bai, J. and Waldfogel, J. (2012). Movie piracy and sales displacement in two samples of Chinese consumers. _Information Economics and Policy_.](https://www.sciencedirect.com/science/article/pii/S0167624512000388)
+
+3) [Herz, B. and Kiljański, K. (2018). Movie piracy and displaced sales in Europe: Evidence from six countries. _Information Economics and Policy_.](https://www.sciencedirect.com/science/article/abs/pii/S016762451730152X)
+
+4) [Ende et al. (2018). Global Online Piracy Study. _Google Report_.](https://www.ivir.nl/projects/global-online-piracy-study/)
+
+#### Relationship between piracy and movie-going across studies
+|     | Sample                           | Years   | % unpaid |  Coef.   |
+| --- | -------------------------------- | ------- |:--------:|:--------:|
+| 1   | 500 US students                  | 2002-05 |   5.2%   | -0.76**  |
+| 2a  | 372 Chinese students             | 2006-08 |   74%    | -0.14**  |
+| 2b  | 3852 Chinese internet users      | 2006-08 |   64%    |   0.01   |
+| 3   | 30k internet users; 6 countries  | 2011-13 |   12%    | -0.42*** |
+| 4   | 35k internet users; 13 countries | 2015-17 |   10%    | -0.22*** |
+
+## -> Case 2: further studies with similar (not same) methods, and somewhat different context 
+
+#### Relationship between piracy and legal content consumption across studies
+| Study                    | Respondents     | Content       | Year of data     | Coefficient
+| ------------------------ | --------------- | ------------- | ---------------- | ------------------- |
+| [Rob and Waldfogel (2006)](https://www.journals.uchicago.edu/doi/abs/10.1086/430809) | US students     | Hit CD albums | 1999-2003        | -0.16*              |
+| [Waldfogel (2009)](https://www.sciencedirect.com/science/article/abs/pii/S0167624508000723)	       | US students     | TV series     | 2005-06 or 06-07 | -0.31**             |
+| [Waldfogel (2010)](https://www.sciencedirect.com/science/article/abs/pii/S0167624510000260)	       | US students     | popular songs | 2008-09 or 09-10 | -0.15**/-0.24**     |
+| [Hardy (2021)](https://www.sciencedirect.com/science/article/abs/pii/S0167624521000159)             | Online readers  | comic books   | 2019             | -0.34***/-0.40***   |
+
+## -> Case 3: what if we were to include absolutely different studies on piracy effects?
+
+E.g. [effects of Megaupload shutdown on box office revenues](https://www.sciencedirect.com/science/article/abs/pii/S0167718716301527), [effects of piracy website blocking on streaming subscriptions](https://misq.umn.edu/the-effect-of-piracy-website-blocking-on-consumer-behavior.html), [effects of new anti-piracy law on music](https://onlinelibrary.wiley.com/doi/full/10.1111/joie.12056), [effects of copyright protection on book sales](https://www.journals.uchicago.edu/doi/abs/10.1086/687521), etc.
+
+:::
+
+---
+
+### Goal: verifying the reliability of the literature
+
+This goal might focus on finding a publication bias rather than worrying about the effect size. I.e. it might show that, e.g., there are 15 studies that agree with each other but due to publication bias, they should actually be considered as insufficient to confirm a hypothesis.
+
+Specific things to consider:
+
+- are you interested in the source of the publication bias? I.e. if it relates to any identifiable variables?
+
+#### Quick recap on the problems:
+
+- p-hacking (modifying the analysis just to reach the 'significance' goal)
+- data dredging (going through data just to find some relationships)
+- publication bias (authors might not pursue some results, or editors might prefer not to publish some results)
+- file drawer problem (unfinished studies, delayed studies, studies in progress)
+- HARKing (writing the hypotheses after -- and not before -- reaching results)
+
+Some examples:
+
+::: {.panel-tabset}
+
+## Case 1: funnel plot
+
+Studies on effects of ICT on economic performance. Precision on y axis, effects on x axis.
+
+In theory, should be symmetrical along the average: 
+
+![](https://i.imgur.com/CuJtULv.jpg)
+
+[*Source*: Polák, P. (2017), The productivity paradox: A meta-analysis. *Information Economics and Policy*, vol.38.](https://www.sciencedirect.com/science/article/pii/S0167624516301524#fig0002)
+
+## Case 2: reported p-values
+
+[Krawczyk, M. (2015) - The Search for Significance: A Few Peculiarities in the Distribution of P Values in Experimental Psychology Literature. *PLOS ONE 10*(6).](https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0127872)
+
+Studied >135,000 p-values from >5,000 studies:
+
+- P-values often just above the significance threshold
+- More likely to be rounded down than up.
+- More likely to be reported in full if just above the threshold.
+  - e.g. p-value of 0.1012 reported as "0.1012" but p-value of 0.0998 reported as "< 0.10"
+
+etc.
+
+![](https://i.imgur.com/z37vNWU.png =600x)
+
+:::
+
+---
+
+### Goal: identifying new relationships
+
+Goal might be to identify how different methods affect the results. Or other factors such as: period, country/region, diversity and number of authors, authors' affiliation or country of origin, type of publication, inclusion of specific variables, population, etc.
+
+Specific things to consider:
+
+- the hypothesis (i.e. what exactly would you expect to find?)
+
+- relationship can be with the effect size, but also with the result in general, or probability of being published, etc.
+
+E.g. [Iwasaki and Satogami (2023)](https://labourmarketresearch.springeropen.com/articles/10.1186/s12651-023-00333-y) analyse the gender wage gap across time and countries.
+
+---
+
+### Things to consider in all cases (see below)
+
+---
+
+## Step 2) Getting the data
+
+Most meta-analyses require a painstaking amount of work during data collection. Unless the meta-analysis doesn't go very deep - e.g. focuses on journals/names/author lists, etc. (meaning the data is scrapable).
+
+If we want to go deeper and code effect sizes, statistics, outcomes, methods, etc., we're going to have to carefully browse each text individually.
+
+But that's only once we have the articles for the sample. There's a step before that.
+
+### A) Picking the sample
+
+Due to somewhat arbitrary views on what should be included in a meta-analysis, the process should be documented thoroughly to ensure reproducibility and justify the choices.
+
+Crucial: we need to define how we look for papers and what are the exclusion criteria.
+
+**Techniques for searching** include:
+
+- Scholar Google (when? what keywords? how many search results browsed?)
+
+- Research databases like Scopus or Web of Science (when? what keywords?)
+
+- Snowballing, i.e. looking within the ones you've already found (e.g. starting from reviews)
+
+**Exclusion criteria**, e.g.:
+
+- Being on topic (techniques above will likely return many irrelevant studies)
+
+- Published in journals / working papers / mimeos / presentations / conference proceedings / reports?
+
+- Any journals or peer-reviewed? or with Impact Factors?
+
+- Sample sizes, periods, countries, experimental studies, quality of causal inference?
+
+- Language
+
+### B) Data coding
+
+- How many coders (double-checks are good)? 
+
+- How to define the variables? 
+
+- Which results to look at (e.g. all or authors' preference)?
+
+- One or more estimates per paper?
+
+- How many variables needed? 
+
+## Step 3) Data preparation
+
+Finding a common, standardised metric. Examples:
+
+- Focusing on a statistic (e.g. the t-statistic) rather than coefficients
+
+- Simplification: positive vs non-significant vs negative outcome
+
+- "Effect size": common unit / scale (recalculation, transformation to % change, etc.)
+
+Sometimes intermediate steps might be necessary (calculating statistics based on the information provided). Sometimes important data might be missing - you might contact the original author(s) and ask for the missing information.
+
+Anecdote: I (WH) once had to uncover what was the movie analysed in [this study](https://link.springer.com/article/10.1007/s11151-007-9141-0). We were collecting data and needed information on what year the data in the studies represented. Took some detective work as original author(s) did not wish to disclose the information, but it turned out to be possible.
+
+**Key 1**: effect sizes are independent from sample sizes. 
+
+**Key 2**: however, we may weigh them based on their accuracy (lower samples -> larger variance -> lower accuracy -> smaller weight)
+
+Check e.g. [Pollet, T. (2019) - Meta-analysis: part 2: it’s all about effect sizes…](https://tvpollet.github.io/Meta-analysis_2/Meta-analysis_2.html#1) for an overview of different types of effect sizes, when to use them, how to calculate them. 
+
+## It all gets easier once Steps 1-3 are done and documented :) {.tabset}
+
+Here are a few examples of points above in practice. The excerpts are from [Weichselbaumer, D. and Winter-Ebmer, R. (2005). A Meta-Analysis of the International Gender Wage Gap](https://onlinelibrary.wiley.com/doi/pdf/10.1111/j.0950-0804.2005.00256.x):
+
+:::{.panel-tabset}
+
+### Sample selection
+> In order to make the data construction as transparent as possible, we used an easily accessible but universal research database. Following Stanley and Jarrell (1998), in November 2000, we searched the Economic Literature Index (EconLit) for any reference to: ‘(wage\* or salar\* or earning\*) and (discrimination or differen\*) and (sex or gender)’. (...)
+
+### Exclusion criteria
+> Our EconLit search led to 1541 references of which a large fraction was theoretical, or, in fact, covering an entirely different topic. The empirical papers were examined whether they actually used any regression analysis or simply reported mean ratios without holding productivity constant. Eventually, the desired estimates could be gained from 263 articles.
+
+### Multiple estimates per study
+> Some authors calculated the gender wage gap for several countries or time periods in one published paper. Likewise, they might use data from different distinct populations, like regional or sectoral entities. These estimates can be treated as independent estimates. Therefore, we divided the estimates from one paper into several ‘studies’ if the estimates have come from different time periods and/or different populations. This gives us 788 different studies.
+
+### Which estimates to use
+> Typically, authors present a number of estimates for each study, i.e. country and time unit. These estimates are usually based on different specifications of the regression model. Stanley and Jarrell (1998) selected only one estimate per paper for their meta-analysis. In particular, they chose ‘the OLS estimate which the author seemed to promote as the best’ (p. 955). We included all estimates the authors presented for a given study to avoid any possibility of a systematic biaswhen picking a certain estimate. (...). In total, this gives us 1535 estimates of the gender wage gap, on average two estimates per study.
+
+Note: weighting is used to deal with lack of independence and uneven numbers of estimates per study.
+
+:::
+
+# Important
+
+The literature on meta-analysis is now broader with clear guidelines for various steps. Here are two important (and quite recent) standards:
+
+[Preferred Reporting Items for Systematic Reviews and Meta-Analyses (PRISMA)](http://prisma-statement.org/) (see e.g. [the checklist](http://prisma-statement.org/documents/PRISMA_2020_checklist.pdf))
+
+[Newcastle Ottawa Scale (NOS) for standardised assessment of quality for metaanalyses](https://www.ohri.ca/programs/clinical_epidemiology/oxford.asp)
+
+You can check [this handbook for more](https://bookdown.org/MathiasHarrer/Doing_Meta_Analysis_in_R/).
+
+---
+
+# Let's test some options
+
+Note: the following examples (e.g. data) come from: [Harrer, M., Cuijpers, P., Furukawa, T.A, & Ebert, D. D. (2019). Doing Meta-Analysis in R: A Hands-on Guide. DOI: 10.5281/zenodo.2551803.](https://bookdown.org/MathiasHarrer/Doing_Meta_Analysis_in_R/)/
+
+The `meta` package holds the basic tools needed for meta analysis. 
+
+## Finding the overall effects
+
+### Case 1. Our effect sizes are already calculated
+
+::: {.panel-tabset}
+
+## Data description
+
+[Source](https://rdrr.io/github/MathiasHarrer/dmetar/man/ThirdWave.html): This is a toy dataset containing pre-calculated effect size data of a meta-analysis on randomized controlled trials comparing the effectiveness of 'third-wave' cognitive behavioral therapy (CBT) interventions for perceived stress in college students to inactive controls.
+
+Effect size data is provided as the standardized mean difference (SMD) between the intervention and control group and the corresponding standard error for each study at post. 
+
+The dataset also contains columns for study characteristics which may serve as potential effect size moderators.
+
+## List of variables
+
+Author
+character. The study label containing the author(s) of the study.
+
+*TE*
+numeric. The calculated standardized mean difference at post-test between the intervention and control group.
+
+*seTE*
+numeric. The standard error of the standardized mean difference.
+
+*RiskOfBias*
+character. The risk of bias rating according to the Cochrane Risk of Bias Tool.
+
+*TypeControlGroup*
+character. The type of control group used in the study.
+
+*InterventionDuration*
+character. The dichotomized duration of the intervention.
+
+*InterventionType*
+character. The type of third-wave intervention rationale used.
+
+*ModeOfDelivery*
+character. The mode of delivery used for the intervention.
+
+:::
+
+
+```{r}
+load("data/madata.RData")
+Meta_Analysis_Data[1:5,]
+```
+We can now use `meta::metagen` function to estimate the overall effect size. Type `?metagen` to check the possibilities. 
+
+```{r}
+m <- metagen(TE=TE,
+             seTE=seTE,
+             data=Meta_Analysis_Data,
+             studlab=paste(Author),
+             comb.fixed = TRUE,
+             comb.random = FALSE)
+m
+```
+Where `studlab` gives us nice study labels and `comb.fixed` specifies the fixed effect approach.
+
+
+### Case 2. Our effect sizes are not calculated but we have the necessary data
+
+In this dataset:
+
+- `Ne` is the number of observations in experimental group.
+- `Me` is the estimated mean in experimental group.
+- `Se` is the standard deviation in experimental group.
+- `Nc`, `Mc` and `Sc` are same but for control group.
+
+```{r}
+load("data/metacont.RData")
+metacont[1:5,]
+```
+
+
+
+```{r}
+m.raw <- metacont(n.e=Ne,
+                  mean.e=Me,
+                  sd.e=Se,
+                  n.c=Nc,
+                  mean.c=Mc,
+                  sd.c=Sc,
+                  data=metacont,
+                  studlab=paste(Author),
+                  comb.fixed = TRUE,
+                  comb.random = TRUE,
+)
+m.raw
+```
+
+### Case 3. `matada` again but with Random effects
+
+```{r}
+m_re <- metagen(TE=TE,
+             seTE=seTE,
+             data=Meta_Analysis_Data,
+             studlab=paste(Author),
+             comb.fixed = FALSE,
+             comb.random = TRUE)
+m_re
+```
+
+### One popular way of depicting such analyses: `forest plots`
+
+With `meta` package this is very simple. We just put our results into the `forest()` function:
+
+```{r}
+m %>% forest(sortvar=TE)
+```
+
+```{r}
+m_re %>% forest(sortvar=TE)
+```
+
+## Finding what explains the results
+
+Once we have defined what is what in a meta-analysis setting, we can again use it for other calculations. Let's see if the effect sizes are determined by how the study was conducted and who was involved.
+
+```{r}
+m %>% metareg(`mode of delivery` + `type of students`)
+  
+```  
+
+## Checking for publication bias
+
+Again, we use what we defined previously.
+
+```{r}
+m %>% funnel()
+```
+
+And we can add some additional features, e.g. let's make it a 'contour-enhanced' funnel plot:
+
+```{r}
+contour_levels <- c(0.90, 0.95, 0.99)
+contour_colors <- c("darkblue", "blue", "lightblue")
+funnel(m, contour = contour_levels, col.contour = contour_colors)
+legend("topright", c("p < 0.10", "p < 0.05", "p < 0.01"), bty = "n", fill = contour_colors)
+```
+
+# ASSIGNMENT 
+
+1) Import the data from the `data\metaanalysis_data.xlsx` file. The data come from the meta-analysis study: [Todd et al., 2017 - Sex differences in children's toy preferences: A systematic review, meta‐regression, and meta‐analysis](https://onlinelibrary.wiley.com/doi/full/10.1002/icd.2064)
+
+The study looks at various studies of children choosing what kind of toys they play with (stereotypically 'boy-toys' or stereotypically 'girl-toys'). Mean times (in seconds) of playing are recorded, along with sample sizes and standard errors (for boys playing with each kind of toys and for girls playing with each kind of toys).
+
+There's also information about the studies (e.g. year) and a bit about quality.
+
+Here's authors' descriptions to the data:
+
+> Neutral toys (1 = neutral toys included; 2 = neutral toys not included); Parent present (1 = absent; 2 = minimal interaction; 3 = moderate or full interaction); Setting = location of study (1 = home; 2 = laboratory; 3 = nursery); Country = gender inequality index, a measure of how gender egalitarian the country was at the time the study took place.
+
+> Note. Quality is assessed using Newcastle–Ottawa Quality Assessment Scale criteria adapted for this study. A star indicates that the study fulfilled this criterion; an X indicates that the
+study did not fulfil this criterion. 
+Case definition adequate: clear justification for the gendered nature of a toy, for example, based on research. 
+Representativeness of cases: recruitment of consecutive participants. 
+Selection of controls: whether boys and girls were comparable in terms of social background.
+Parental opinion: whether parents' views on gender were measured.
+Comparability of both groups: the toys were comparable (in size, shape, etc.) and if the boys and girls were comparable in age. 
+Ascertainment of behaviour: Play behaviour was clearly defined. 
+Same ascertainment method for both groups: The measurement of the outcome (time spent playing with toy) was clearly defined. 
+Nonresponse rate: whether either nonuptake or dropout rates reported.
+
+2) Experiment using what you've learned:
+
+a) combine the effects
+b) create a funnel plot (what do you see?)
+c) check if methods / quality affect the results
+d) does author gender affect it?
+
+## Example scripts
+
+Here are some [example scripts](https://github.com/glowform/reproducible-research/tree/main/Assignments/RR_10_Metaanalysis/scripts) in both python (not complete) and R.

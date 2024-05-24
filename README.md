@@ -40,14 +40,14 @@ Plagiarism is not tolerated in any form (including self-plagiarism). You are not
 
 ## Annoucements
 ~~(QF) 19.02.2024 - Classes moved to another date: 13.03.2024 18:30~~ \
-~~(DS) Classes moved from 26/28.03 due to rector hours to: 27.03.2024, 15:00 and 16:45~~
-(DS) 29.02.2024 - Classes moved to another date: 29.05.2024, 15:00 and 16:45 \
+~~(DS) Classes moved from 26/28.03 due to rector hours to: 27.03.2024, 15:00 and 16:45~~ \
+(DS) 29.02.2024 - Classes moved to another date: 29.05.2024, 15:00 and 16:45 
 
 
 
 ## Assignments
 
-All assignments need to be delivered by midnight on the day of the class.
+All assignments need to be delivered by midnight on the next day after the class.
 
 22.02.2024 (DS)/26.02(QF) - Assignment 1. Create your github profile (fill up the name and surname), go to this repository and star it.
 
@@ -58,3 +58,13 @@ All assignments need to be delivered by midnight on the day of the class.
 18.03.2024 (QF)/21.03(DS) - Assignment 4. [ Link to instructions](https://github.com/glowform/reproducible-research/blob/main/Assignments/RR_assignment_4.md)
 
 25.03.2024 (QF)/27.03(DS) - Assignment 5. [ Link to instructions](https://github.com/glowform/reproducible-research/blob/main/Assignments/RR_assignment_5.md)
+
+04.04.2024 (DS)/08.04(QF) - Assignment 6. [ Link to instructions](https://github.com/glowform/reproducible-research/blob/main/Assignments/RR_assignment_6.md)
+
+11.04.2024 (DS)/15.04(QF) - Assignment 7. [ Link to instructions](https://github.com/glowform/reproducible-research/blob/main/Assignments/RR_assignment_7.md)
+
+18.04.2024 (DS)/22.04(QF) - Assignment 8. [ Link to instructions](https://github.com/glowform/reproducible-research/blob/main/Assignments/RR_assignment_8.md)
+
+09.05.2024 (DS)/13.05(QF) - Assignment 9. [ Link to instructions](https://github.com/glowform/reproducible-research/blob/main/Assignments/RR_assignment_9.md)
+
+16.05.2024 (DS)/20.05(QF) - Assignment 10. [ Link to instructions](https://github.com/glowform/reproducible-research/tree/main/Assignments/RR_10_Metaanalysis)
