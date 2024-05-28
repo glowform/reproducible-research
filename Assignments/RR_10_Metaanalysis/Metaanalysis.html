@@ -1,0 +1,1230 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.4.553">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Jakub Michańków (based on Wojciech Hardy)">
+<meta name="dcterms.date" content="2024-05-16">
+
+<title>Metaanalysis in R</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="Metaanalysis_files/libs/clipboard/clipboard.min.js"></script>
+<script src="Metaanalysis_files/libs/quarto-html/quarto.js"></script>
+<script src="Metaanalysis_files/libs/quarto-html/popper.min.js"></script>
+<script src="Metaanalysis_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="Metaanalysis_files/libs/quarto-html/anchor.min.js"></script>
+<link href="Metaanalysis_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="Metaanalysis_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="Metaanalysis_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="Metaanalysis_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="Metaanalysis_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+
+
+</head>
+
+<body>
+
+<header id="title-block-header" class="quarto-title-block default page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">Metaanalysis in R</h1>
+                      </div>
+  </div>
+    
+  
+  <div class="quarto-title-meta">
+
+      <div>
+      <div class="quarto-title-meta-heading">Author</div>
+      <div class="quarto-title-meta-contents">
+               <p>Jakub Michańków (based on Wojciech Hardy) </p>
+            </div>
+    </div>
+      
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">May 16, 2024</p>
+      </div>
+    </div>
+    
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+<div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+  <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#meta-analysis" id="toc-meta-analysis" class="nav-link active" data-scroll-target="#meta-analysis">Meta-analysis</a>
+  <ul class="collapse">
+  <li><a href="#goals" id="toc-goals" class="nav-link" data-scroll-target="#goals">Goals</a></li>
+  </ul></li>
+  <li><a href="#some-notes" id="toc-some-notes" class="nav-link" data-scroll-target="#some-notes">Some notes</a></li>
+  <li><a href="#step-1-choosing-your-goal" id="toc-step-1-choosing-your-goal" class="nav-link" data-scroll-target="#step-1-choosing-your-goal">Step 1) Choosing your goal</a>
+  <ul class="collapse">
+  <li><a href="#goal-finding-the-truecombined-effect-size" id="toc-goal-finding-the-truecombined-effect-size" class="nav-link" data-scroll-target="#goal-finding-the-truecombined-effect-size">Goal: finding the true/combined effect size</a></li>
+  <li><a href="#goal-verifying-the-reliability-of-the-literature" id="toc-goal-verifying-the-reliability-of-the-literature" class="nav-link" data-scroll-target="#goal-verifying-the-reliability-of-the-literature">Goal: verifying the reliability of the literature</a></li>
+  <li><a href="#goal-identifying-new-relationships" id="toc-goal-identifying-new-relationships" class="nav-link" data-scroll-target="#goal-identifying-new-relationships">Goal: identifying new relationships</a></li>
+  <li><a href="#things-to-consider-in-all-cases-see-below" id="toc-things-to-consider-in-all-cases-see-below" class="nav-link" data-scroll-target="#things-to-consider-in-all-cases-see-below">Things to consider in all cases (see below)</a></li>
+  </ul></li>
+  <li><a href="#step-2-getting-the-data" id="toc-step-2-getting-the-data" class="nav-link" data-scroll-target="#step-2-getting-the-data">Step 2) Getting the data</a>
+  <ul class="collapse">
+  <li><a href="#a-picking-the-sample" id="toc-a-picking-the-sample" class="nav-link" data-scroll-target="#a-picking-the-sample">A) Picking the sample</a></li>
+  <li><a href="#b-data-coding" id="toc-b-data-coding" class="nav-link" data-scroll-target="#b-data-coding">B) Data coding</a></li>
+  </ul></li>
+  <li><a href="#step-3-data-preparation" id="toc-step-3-data-preparation" class="nav-link" data-scroll-target="#step-3-data-preparation">Step 3) Data preparation</a></li>
+  <li><a href="#it-all-gets-easier-once-steps-1-3-are-done-and-documented" id="toc-it-all-gets-easier-once-steps-1-3-are-done-and-documented" class="nav-link" data-scroll-target="#it-all-gets-easier-once-steps-1-3-are-done-and-documented">It all gets easier once Steps 1-3 are done and documented :)</a></li>
+  <li><a href="#important" id="toc-important" class="nav-link" data-scroll-target="#important">Important</a></li>
+  <li><a href="#lets-test-some-options" id="toc-lets-test-some-options" class="nav-link" data-scroll-target="#lets-test-some-options">Let’s test some options</a>
+  <ul class="collapse">
+  <li><a href="#finding-the-overall-effects" id="toc-finding-the-overall-effects" class="nav-link" data-scroll-target="#finding-the-overall-effects">Finding the overall effects</a>
+  <ul class="collapse">
+  <li><a href="#case-1.-our-effect-sizes-are-already-calculated" id="toc-case-1.-our-effect-sizes-are-already-calculated" class="nav-link" data-scroll-target="#case-1.-our-effect-sizes-are-already-calculated">Case 1. Our effect sizes are already calculated</a></li>
+  <li><a href="#case-2.-our-effect-sizes-are-not-calculated-but-we-have-the-necessary-data" id="toc-case-2.-our-effect-sizes-are-not-calculated-but-we-have-the-necessary-data" class="nav-link" data-scroll-target="#case-2.-our-effect-sizes-are-not-calculated-but-we-have-the-necessary-data">Case 2. Our effect sizes are not calculated but we have the necessary data</a></li>
+  <li><a href="#case-3.-matada-again-but-with-random-effects" id="toc-case-3.-matada-again-but-with-random-effects" class="nav-link" data-scroll-target="#case-3.-matada-again-but-with-random-effects">Case 3. <code>matada</code> again but with Random effects</a></li>
+  <li><a href="#one-popular-way-of-depicting-such-analyses-forest-plots" id="toc-one-popular-way-of-depicting-such-analyses-forest-plots" class="nav-link" data-scroll-target="#one-popular-way-of-depicting-such-analyses-forest-plots">One popular way of depicting such analyses: <code>forest plots</code></a></li>
+  </ul></li>
+  <li><a href="#finding-what-explains-the-results" id="toc-finding-what-explains-the-results" class="nav-link" data-scroll-target="#finding-what-explains-the-results">Finding what explains the results</a></li>
+  <li><a href="#checking-for-publication-bias" id="toc-checking-for-publication-bias" class="nav-link" data-scroll-target="#checking-for-publication-bias">Checking for publication bias</a></li>
+  </ul></li>
+  <li><a href="#assignment" id="toc-assignment" class="nav-link" data-scroll-target="#assignment">ASSIGNMENT</a>
+  <ul class="collapse">
+  <li><a href="#example-scripts" id="toc-example-scripts" class="nav-link" data-scroll-target="#example-scripts">Example scripts</a></li>
+  </ul></li>
+  </ul>
+</nav>
+</div>
+<main class="content quarto-banner-title-block" id="quarto-document-content">
+
+
+
+
+
+<section id="meta-analysis" class="level2">
+<h2 class="anchored" data-anchor-id="meta-analysis">Meta-analysis</h2>
+<p><em>a statistical analysis that combines the results of multiple scientific studies.</em> (<a href="https://en.wikipedia.org/wiki/Meta-analysis">Wikipedia</a>)</p>
+<p>Very important in e.g.&nbsp;medicine (where it’s relatively easy to use).</p>
+<p>It’s a powerful statistical technique used to synthesize and analyze findings from multiple independent studies. It allows researchers to combine the results of several studies to draw more robust conclusions than those derived from individual studies alone. Meta-analysis is particularly valuable when individual studies may have limited sample sizes or conflicting results.</p>
+<p>Meta-analysis involves systematically collecting and analyzing data from multiple studies on a specific topic or research question. The goal is to quantitatively summarize the collective evidence, identify patterns, and estimate the overall effect size or relationship between variables across studies.</p>
+<p>Breakdown of some key aspects:</p>
+<p><strong>Study selection</strong>: The first step in meta-analysis is identifying relevant studies. This involves comprehensive literature searches across multiple databases, journals, and other sources to find all relevant research on the topic of interest.</p>
+<p><strong>Inclusion criteria</strong>: Establishing specific criteria for including studies in the meta-analysis. These can be publication date, study design, sample size, and outcome measures. Studies that meet these criteria are included, and those that do not are excluded.</p>
+<p><strong>Data extraction</strong>: Once relevant studies are identified, data extraction involves extracting key information from each study, such as sample sizes, effect sizes, confidence intervals, and other statistics that we think may be relevant.</p>
+<p><strong>Effect size calculation</strong>: Estimate the overall effect size or relationship between variables across studies. Common effect size measures include the mean difference, standardized mean difference (Cohen’s d), odds ratio, correlation coefficient, and risk ratio.</p>
+<p><strong>Weighting and aggregation</strong>: Not all studies contribute equally to the meta-analysis, for example studies with larger sample sizes or greater methodological rigor are typically given more weight in the analysis. Weighted averaging is used to combine effect sizes across studies, taking into account both the effect size and variability.</p>
+<p><strong>Heterogeneity assessment</strong> We assume that studies are not identical but may vary in their methods, populations, and effect sizes. Heterogeneity refers to the degree of variability among study results. Statistical tests, such as the Q-statistic and I^2 statistic, are used to assess heterogeneity and determine whether it is significant.</p>
+<p><strong>Publication Bias evaluation</strong> Publication bias occurs when studies with positive results are more likely to be published than those with null or negative results, leading to an overestimation of the true effect size. Various methods, such as funnel plots and Egger’s regression, are used to assess and adjust for publication bias in meta-analysis.</p>
+<p><strong>Interpretation and reporting</strong> The results of a meta-analysis are typically summarized in a forest plot, which visually displays the effect sizes and confidence intervals of individual studies as well as the overall pooled effect size. Meta-analysts must carefully interpret the findings, considering factors such as study quality, heterogeneity, and potential biases.</p>
+<section id="goals" class="level3">
+<h3 class="anchored" data-anchor-id="goals">Goals</h3>
+<p>Can serve different goals:</p>
+<ol type="1">
+<li>Finding the “true” size of the relationship based on multiple studies.</li>
+<li>Finding the average effect size based on multiple studies.</li>
+<li>Finding what affects the relationship:</li>
+</ol>
+<ul>
+<li>study-related (e.g.&nbsp;author effects, journal effects, method effects, variable selection, etc.)</li>
+<li>context-related (e.g.&nbsp;changes over time, sample characteristics, country, etc.)</li>
+</ul>
+<ol start="4" type="1">
+<li>Uncovering publication biases (e.g.&nbsp;a meta-analysis of several studies with statistically significant results may conclude that there is not enough evidence)</li>
+</ol>
+<hr>
+</section>
+</section>
+<section id="some-notes" class="level2">
+<h2 class="anchored" data-anchor-id="some-notes">Some notes</h2>
+<p>This is by no means a complete or thorough guide.</p>
+<p>This is an intro to show you some basic techniques and what has to be considered.</p>
+<p>There are good tutorials and guidelines online that present more formal requirements for a proper metaanalysis study.</p>
+<hr>
+</section>
+<section id="step-1-choosing-your-goal" class="level2">
+<h2 class="anchored" data-anchor-id="step-1-choosing-your-goal">Step 1) Choosing your goal</h2>
+<p>There’s a variety of tasks that a metaanalysis can fulfill. Often, setting the goal will define how you approach further steps.</p>
+<hr>
+<section id="goal-finding-the-truecombined-effect-size" class="level3">
+<h3 class="anchored" data-anchor-id="goal-finding-the-truecombined-effect-size">Goal: finding the true/combined effect size</h3>
+<p>One potential goal is to identify a true effect size when all you have is estimations. Depending on the field or issue this might be straightforward (e.g.&nbsp;the methods and approaches are always the same and only the samples differ) or complex (e.g.&nbsp;methods, periods, variables, samples, contexts differ).</p>
+<p>In case of complex problems, you might want and need to add any such differences as control variables.</p>
+<p>Specific things to consider:</p>
+<ul>
+<li><p>what might affect a particular estimate.</p></li>
+<li><p>are the estimates comparable (e.g.&nbsp;% change vs linear relationship vs odds ratios).</p></li>
+<li><p>are you looking for a ‘true’ universal effect size (the fixed effect approach), or the ‘average’ effect size (the random effects approach)?</p></li>
+</ul>
+<p>Fig. 1. “Schematic of the <strong>fixed-effect</strong> model”</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="img/Fixed%20effect.png" class="img-fluid figure-img"></p>
+<figcaption>Source: <a href="https://www.meta-analysis.com/downloads/Intro_Models.pdf">Borenstein et al., 2010. A basic introduction to fixed-effect and random-effects models for meta-analysis.</a></figcaption>
+</figure>
+</div>
+<p>Fig. 2. “Schematic of the <strong>random-effects</strong> model”</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="img/Random%20effect.png" class="img-fluid figure-img"></p>
+<figcaption>Source: <a href="https://www.meta-analysis.com/downloads/Intro_Models.pdf">Borenstein et al., 2010. A basic introduction to fixed-effect and random-effects models for meta-analysis.</a></figcaption>
+</figure>
+</div>
+<p>Note: this has nothing to do with the fixed/random effects in panel models.</p>
+<hr>
+<p>Consider the cases:</p>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" href="">-&gt; Case 1: a set of studies following the same method</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false" href="">-&gt; Case 2: further studies with similar (not same) methods, and somewhat different context</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-3" role="tab" aria-controls="tabset-1-3" aria-selected="false" href="">-&gt; Case 3: what if we were to include absolutely different studies on piracy effects?</a></li></ul>
+<div class="tab-content">
+<div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
+<ol type="1">
+<li><p><a href="https://onlinelibrary.wiley.com/doi/pdf/10.1111/j.1467-6451.2007.00316.x">Rob, R. and Waldfogel, J. (2007). Piracy on the Silver Screen. <em>Journal of Industrial Economics</em>.</a></p></li>
+<li><p><a href="https://www.sciencedirect.com/science/article/pii/S0167624512000388">Bai, J. and Waldfogel, J. (2012). Movie piracy and sales displacement in two samples of Chinese consumers. <em>Information Economics and Policy</em>.</a></p></li>
+<li><p><a href="https://www.sciencedirect.com/science/article/abs/pii/S016762451730152X">Herz, B. and Kiljański, K. (2018). Movie piracy and displaced sales in Europe: Evidence from six countries. <em>Information Economics and Policy</em>.</a></p></li>
+<li><p><a href="https://www.ivir.nl/projects/global-online-piracy-study/">Ende et al.&nbsp;(2018). Global Online Piracy Study. <em>Google Report</em>.</a></p></li>
+</ol>
+<section id="relationship-between-piracy-and-movie-going-across-studies" class="level4">
+<h4 class="anchored" data-anchor-id="relationship-between-piracy-and-movie-going-across-studies">Relationship between piracy and movie-going across studies</h4>
+<table class="table">
+<colgroup>
+<col style="width: 4%">
+<col style="width: 51%">
+<col style="width: 11%">
+<col style="width: 16%">
+<col style="width: 16%">
+</colgroup>
+<thead>
+<tr class="header">
+<th></th>
+<th>Sample</th>
+<th>Years</th>
+<th style="text-align: center;">% unpaid</th>
+<th style="text-align: center;">Coef.</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td>500 US students</td>
+<td>2002-05</td>
+<td style="text-align: center;">5.2%</td>
+<td style="text-align: center;">-0.76**</td>
+</tr>
+<tr class="even">
+<td>2a</td>
+<td>372 Chinese students</td>
+<td>2006-08</td>
+<td style="text-align: center;">74%</td>
+<td style="text-align: center;">-0.14**</td>
+</tr>
+<tr class="odd">
+<td>2b</td>
+<td>3852 Chinese internet users</td>
+<td>2006-08</td>
+<td style="text-align: center;">64%</td>
+<td style="text-align: center;">0.01</td>
+</tr>
+<tr class="even">
+<td>3</td>
+<td>30k internet users; 6 countries</td>
+<td>2011-13</td>
+<td style="text-align: center;">12%</td>
+<td style="text-align: center;">-0.42***</td>
+</tr>
+<tr class="odd">
+<td>4</td>
+<td>35k internet users; 13 countries</td>
+<td>2015-17</td>
+<td style="text-align: center;">10%</td>
+<td style="text-align: center;">-0.22***</td>
+</tr>
+</tbody>
+</table>
+</section>
+</div>
+<div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
+<section id="relationship-between-piracy-and-legal-content-consumption-across-studies" class="level4">
+<h4 class="anchored" data-anchor-id="relationship-between-piracy-and-legal-content-consumption-across-studies">Relationship between piracy and legal content consumption across studies</h4>
+<table class="table">
+<thead>
+<tr class="header">
+<th>Study</th>
+<th>Respondents</th>
+<th>Content</th>
+<th>Year of data</th>
+<th>Coefficient</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><a href="https://www.journals.uchicago.edu/doi/abs/10.1086/430809">Rob and Waldfogel (2006)</a></td>
+<td>US students</td>
+<td>Hit CD albums</td>
+<td>1999-2003</td>
+<td>-0.16*</td>
+</tr>
+<tr class="even">
+<td><a href="https://www.sciencedirect.com/science/article/abs/pii/S0167624508000723">Waldfogel (2009)</a></td>
+<td>US students</td>
+<td>TV series</td>
+<td>2005-06 or 06-07</td>
+<td>-0.31**</td>
+</tr>
+<tr class="odd">
+<td><a href="https://www.sciencedirect.com/science/article/abs/pii/S0167624510000260">Waldfogel (2010)</a></td>
+<td>US students</td>
+<td>popular songs</td>
+<td>2008-09 or 09-10</td>
+<td>-0.15<strong>/-0.24</strong></td>
+</tr>
+<tr class="even">
+<td><a href="https://www.sciencedirect.com/science/article/abs/pii/S0167624521000159">Hardy (2021)</a></td>
+<td>Online readers</td>
+<td>comic books</td>
+<td>2019</td>
+<td>-0.34<strong><em>/-0.40</em></strong></td>
+</tr>
+</tbody>
+</table>
+</section>
+</div>
+<div id="tabset-1-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-3-tab">
+<p>E.g. <a href="https://www.sciencedirect.com/science/article/abs/pii/S0167718716301527">effects of Megaupload shutdown on box office revenues</a>, <a href="https://misq.umn.edu/the-effect-of-piracy-website-blocking-on-consumer-behavior.html">effects of piracy website blocking on streaming subscriptions</a>, <a href="https://onlinelibrary.wiley.com/doi/full/10.1111/joie.12056">effects of new anti-piracy law on music</a>, <a href="https://www.journals.uchicago.edu/doi/abs/10.1086/687521">effects of copyright protection on book sales</a>, etc.</p>
+</div>
+</div>
+</div>
+<hr>
+</section>
+<section id="goal-verifying-the-reliability-of-the-literature" class="level3">
+<h3 class="anchored" data-anchor-id="goal-verifying-the-reliability-of-the-literature">Goal: verifying the reliability of the literature</h3>
+<p>This goal might focus on finding a publication bias rather than worrying about the effect size. I.e. it might show that, e.g., there are 15 studies that agree with each other but due to publication bias, they should actually be considered as insufficient to confirm a hypothesis.</p>
+<p>Specific things to consider:</p>
+<ul>
+<li>are you interested in the source of the publication bias? I.e. if it relates to any identifiable variables?</li>
+</ul>
+<section id="quick-recap-on-the-problems" class="level4">
+<h4 class="anchored" data-anchor-id="quick-recap-on-the-problems">Quick recap on the problems:</h4>
+<ul>
+<li>p-hacking (modifying the analysis just to reach the ‘significance’ goal)</li>
+<li>data dredging (going through data just to find some relationships)</li>
+<li>publication bias (authors might not pursue some results, or editors might prefer not to publish some results)</li>
+<li>file drawer problem (unfinished studies, delayed studies, studies in progress)</li>
+<li>HARKing (writing the hypotheses after – and not before – reaching results)</li>
+</ul>
+<p>Some examples:</p>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-2-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-1" role="tab" aria-controls="tabset-2-1" aria-selected="true" href="">Case 1: funnel plot</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-2-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-2" role="tab" aria-controls="tabset-2-2" aria-selected="false" href="">Case 2: reported p-values</a></li></ul>
+<div class="tab-content">
+<div id="tabset-2-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-2-1-tab">
+<p>Studies on effects of ICT on economic performance. Precision on y axis, effects on x axis.</p>
+<p>In theory, should be symmetrical along the average:</p>
+<p><img src="https://i.imgur.com/CuJtULv.jpg" class="img-fluid"></p>
+<p><a href="https://www.sciencedirect.com/science/article/pii/S0167624516301524#fig0002"><em>Source</em>: Polák, P. (2017), The productivity paradox: A meta-analysis. <em>Information Economics and Policy</em>, vol.38.</a></p>
+</div>
+<div id="tabset-2-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-2-2-tab">
+<p><a href="https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0127872">Krawczyk, M. (2015) - The Search for Significance: A Few Peculiarities in the Distribution of P Values in Experimental Psychology Literature. <em>PLOS ONE 10</em>(6).</a></p>
+<p>Studied &gt;135,000 p-values from &gt;5,000 studies:</p>
+<ul>
+<li>P-values often just above the significance threshold</li>
+<li>More likely to be rounded down than up.</li>
+<li>More likely to be reported in full if just above the threshold.
+<ul>
+<li>e.g.&nbsp;p-value of 0.1012 reported as “0.1012” but p-value of 0.0998 reported as “&lt; 0.10”</li>
+</ul></li>
+</ul>
+<p>etc.</p>
+<p><img src="https://i.imgur.com/z37vNWU.png%20=600x" class="img-fluid"></p>
+</div>
+</div>
+</div>
+<hr>
+</section>
+</section>
+<section id="goal-identifying-new-relationships" class="level3">
+<h3 class="anchored" data-anchor-id="goal-identifying-new-relationships">Goal: identifying new relationships</h3>
+<p>Goal might be to identify how different methods affect the results. Or other factors such as: period, country/region, diversity and number of authors, authors’ affiliation or country of origin, type of publication, inclusion of specific variables, population, etc.</p>
+<p>Specific things to consider:</p>
+<ul>
+<li><p>the hypothesis (i.e.&nbsp;what exactly would you expect to find?)</p></li>
+<li><p>relationship can be with the effect size, but also with the result in general, or probability of being published, etc.</p></li>
+</ul>
+<p>E.g. <a href="https://labourmarketresearch.springeropen.com/articles/10.1186/s12651-023-00333-y">Iwasaki and Satogami (2023)</a> analyse the gender wage gap across time and countries.</p>
+<hr>
+</section>
+<section id="things-to-consider-in-all-cases-see-below" class="level3">
+<h3 class="anchored" data-anchor-id="things-to-consider-in-all-cases-see-below">Things to consider in all cases (see below)</h3>
+<hr>
+</section>
+</section>
+<section id="step-2-getting-the-data" class="level2">
+<h2 class="anchored" data-anchor-id="step-2-getting-the-data">Step 2) Getting the data</h2>
+<p>Most meta-analyses require a painstaking amount of work during data collection. Unless the meta-analysis doesn’t go very deep - e.g.&nbsp;focuses on journals/names/author lists, etc. (meaning the data is scrapable).</p>
+<p>If we want to go deeper and code effect sizes, statistics, outcomes, methods, etc., we’re going to have to carefully browse each text individually.</p>
+<p>But that’s only once we have the articles for the sample. There’s a step before that.</p>
+<section id="a-picking-the-sample" class="level3">
+<h3 class="anchored" data-anchor-id="a-picking-the-sample">A) Picking the sample</h3>
+<p>Due to somewhat arbitrary views on what should be included in a meta-analysis, the process should be documented thoroughly to ensure reproducibility and justify the choices.</p>
+<p>Crucial: we need to define how we look for papers and what are the exclusion criteria.</p>
+<p><strong>Techniques for searching</strong> include:</p>
+<ul>
+<li><p>Scholar Google (when? what keywords? how many search results browsed?)</p></li>
+<li><p>Research databases like Scopus or Web of Science (when? what keywords?)</p></li>
+<li><p>Snowballing, i.e.&nbsp;looking within the ones you’ve already found (e.g.&nbsp;starting from reviews)</p></li>
+</ul>
+<p><strong>Exclusion criteria</strong>, e.g.:</p>
+<ul>
+<li><p>Being on topic (techniques above will likely return many irrelevant studies)</p></li>
+<li><p>Published in journals / working papers / mimeos / presentations / conference proceedings / reports?</p></li>
+<li><p>Any journals or peer-reviewed? or with Impact Factors?</p></li>
+<li><p>Sample sizes, periods, countries, experimental studies, quality of causal inference?</p></li>
+<li><p>Language</p></li>
+</ul>
+</section>
+<section id="b-data-coding" class="level3">
+<h3 class="anchored" data-anchor-id="b-data-coding">B) Data coding</h3>
+<ul>
+<li><p>How many coders (double-checks are good)?</p></li>
+<li><p>How to define the variables?</p></li>
+<li><p>Which results to look at (e.g.&nbsp;all or authors’ preference)?</p></li>
+<li><p>One or more estimates per paper?</p></li>
+<li><p>How many variables needed?</p></li>
+</ul>
+</section>
+</section>
+<section id="step-3-data-preparation" class="level2">
+<h2 class="anchored" data-anchor-id="step-3-data-preparation">Step 3) Data preparation</h2>
+<p>Finding a common, standardised metric. Examples:</p>
+<ul>
+<li><p>Focusing on a statistic (e.g.&nbsp;the t-statistic) rather than coefficients</p></li>
+<li><p>Simplification: positive vs non-significant vs negative outcome</p></li>
+<li><p>“Effect size”: common unit / scale (recalculation, transformation to % change, etc.)</p></li>
+</ul>
+<p>Sometimes intermediate steps might be necessary (calculating statistics based on the information provided). Sometimes important data might be missing - you might contact the original author(s) and ask for the missing information.</p>
+<p>Anecdote: I (WH) once had to uncover what was the movie analysed in <a href="https://link.springer.com/article/10.1007/s11151-007-9141-0">this study</a>. We were collecting data and needed information on what year the data in the studies represented. Took some detective work as original author(s) did not wish to disclose the information, but it turned out to be possible.</p>
+<p><strong>Key 1</strong>: effect sizes are independent from sample sizes.</p>
+<p><strong>Key 2</strong>: however, we may weigh them based on their accuracy (lower samples -&gt; larger variance -&gt; lower accuracy -&gt; smaller weight)</p>
+<p>Check e.g.&nbsp;<a href="https://tvpollet.github.io/Meta-analysis_2/Meta-analysis_2.html#1">Pollet, T. (2019) - Meta-analysis: part 2: it’s all about effect sizes…</a> for an overview of different types of effect sizes, when to use them, how to calculate them.</p>
+</section>
+<section id="it-all-gets-easier-once-steps-1-3-are-done-and-documented" class="level2 tabset">
+<h2 class="tabset anchored" data-anchor-id="it-all-gets-easier-once-steps-1-3-are-done-and-documented">It all gets easier once Steps 1-3 are done and documented :)</h2>
+<p>Here are a few examples of points above in practice. The excerpts are from <a href="https://onlinelibrary.wiley.com/doi/pdf/10.1111/j.0950-0804.2005.00256.x">Weichselbaumer, D. and Winter-Ebmer, R. (2005). A Meta-Analysis of the International Gender Wage Gap</a>:</p>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-3-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-3-1" role="tab" aria-controls="tabset-3-1" aria-selected="true" href="">Sample selection</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-3-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-3-2" role="tab" aria-controls="tabset-3-2" aria-selected="false" href="">Exclusion criteria</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-3-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-3-3" role="tab" aria-controls="tabset-3-3" aria-selected="false" href="">Multiple estimates per study</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-3-4-tab" data-bs-toggle="tab" data-bs-target="#tabset-3-4" role="tab" aria-controls="tabset-3-4" aria-selected="false" href="">Which estimates to use</a></li></ul>
+<div class="tab-content">
+<div id="tabset-3-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-3-1-tab">
+<blockquote class="blockquote">
+<p>In order to make the data construction as transparent as possible, we used an easily accessible but universal research database. Following Stanley and Jarrell (1998), in November 2000, we searched the Economic Literature Index (EconLit) for any reference to: ‘(wage* or salar* or earning*) and (discrimination or differen*) and (sex or gender)’. (…)</p>
+</blockquote>
+</div>
+<div id="tabset-3-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-3-2-tab">
+<blockquote class="blockquote">
+<p>Our EconLit search led to 1541 references of which a large fraction was theoretical, or, in fact, covering an entirely different topic. The empirical papers were examined whether they actually used any regression analysis or simply reported mean ratios without holding productivity constant. Eventually, the desired estimates could be gained from 263 articles.</p>
+</blockquote>
+</div>
+<div id="tabset-3-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-3-3-tab">
+<blockquote class="blockquote">
+<p>Some authors calculated the gender wage gap for several countries or time periods in one published paper. Likewise, they might use data from different distinct populations, like regional or sectoral entities. These estimates can be treated as independent estimates. Therefore, we divided the estimates from one paper into several ‘studies’ if the estimates have come from different time periods and/or different populations. This gives us 788 different studies.</p>
+</blockquote>
+</div>
+<div id="tabset-3-4" class="tab-pane" role="tabpanel" aria-labelledby="tabset-3-4-tab">
+<blockquote class="blockquote">
+<p>Typically, authors present a number of estimates for each study, i.e.&nbsp;country and time unit. These estimates are usually based on different specifications of the regression model. Stanley and Jarrell (1998) selected only one estimate per paper for their meta-analysis. In particular, they chose ‘the OLS estimate which the author seemed to promote as the best’ (p.&nbsp;955). We included all estimates the authors presented for a given study to avoid any possibility of a systematic biaswhen picking a certain estimate. (…). In total, this gives us 1535 estimates of the gender wage gap, on average two estimates per study.</p>
+</blockquote>
+<p>Note: weighting is used to deal with lack of independence and uneven numbers of estimates per study.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="important" class="level1">
+<h1>Important</h1>
+<p>The literature on meta-analysis is now broader with clear guidelines for various steps. Here are two important (and quite recent) standards:</p>
+<p><a href="http://prisma-statement.org/">Preferred Reporting Items for Systematic Reviews and Meta-Analyses (PRISMA)</a> (see e.g.&nbsp;<a href="http://prisma-statement.org/documents/PRISMA_2020_checklist.pdf">the checklist</a>)</p>
+<p><a href="https://www.ohri.ca/programs/clinical_epidemiology/oxford.asp">Newcastle Ottawa Scale (NOS) for standardised assessment of quality for metaanalyses</a></p>
+<p>You can check <a href="https://bookdown.org/MathiasHarrer/Doing_Meta_Analysis_in_R/">this handbook for more</a>.</p>
+<hr>
+</section>
+<section id="lets-test-some-options" class="level1">
+<h1>Let’s test some options</h1>
+<p>Note: the following examples (e.g.&nbsp;data) come from: <a href="https://bookdown.org/MathiasHarrer/Doing_Meta_Analysis_in_R/">Harrer, M., Cuijpers, P., Furukawa, T.A, &amp; Ebert, D. D. (2019). Doing Meta-Analysis in R: A Hands-on Guide. DOI: 10.5281/zenodo.2551803.</a>/</p>
+<p>The <code>meta</code> package holds the basic tools needed for meta analysis.</p>
+<section id="finding-the-overall-effects" class="level2">
+<h2 class="anchored" data-anchor-id="finding-the-overall-effects">Finding the overall effects</h2>
+<section id="case-1.-our-effect-sizes-are-already-calculated" class="level3">
+<h3 class="anchored" data-anchor-id="case-1.-our-effect-sizes-are-already-calculated">Case 1. Our effect sizes are already calculated</h3>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-4-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-4-1" role="tab" aria-controls="tabset-4-1" aria-selected="true" href="">Data description</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-4-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-4-2" role="tab" aria-controls="tabset-4-2" aria-selected="false" href="">List of variables</a></li></ul>
+<div class="tab-content">
+<div id="tabset-4-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-4-1-tab">
+<p><a href="https://rdrr.io/github/MathiasHarrer/dmetar/man/ThirdWave.html">Source</a>: This is a toy dataset containing pre-calculated effect size data of a meta-analysis on randomized controlled trials comparing the effectiveness of ‘third-wave’ cognitive behavioral therapy (CBT) interventions for perceived stress in college students to inactive controls.</p>
+<p>Effect size data is provided as the standardized mean difference (SMD) between the intervention and control group and the corresponding standard error for each study at post.</p>
+<p>The dataset also contains columns for study characteristics which may serve as potential effect size moderators.</p>
+</div>
+<div id="tabset-4-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-4-2-tab">
+<p>Author character. The study label containing the author(s) of the study.</p>
+<p><em>TE</em> numeric. The calculated standardized mean difference at post-test between the intervention and control group.</p>
+<p><em>seTE</em> numeric. The standard error of the standardized mean difference.</p>
+<p><em>RiskOfBias</em> character. The risk of bias rating according to the Cochrane Risk of Bias Tool.</p>
+<p><em>TypeControlGroup</em> character. The type of control group used in the study.</p>
+<p><em>InterventionDuration</em> character. The dichotomized duration of the intervention.</p>
+<p><em>InterventionType</em> character. The type of third-wave intervention rationale used.</p>
+<p><em>ModeOfDelivery</em> character. The mode of delivery used for the intervention.</p>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="in">load("data/madata.RData")</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="in">Meta_Analysis_Data[1:5,]</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 5 × 17
+  Author       TE  seTE RoB   Control intervention duratio…¹ `intervention type`
+  &lt;chr&gt;     &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;                  &lt;chr&gt;              
+1 Call et … 0.709 0.261 low   WLC     short                  mindfulness        
+2 Cavanagh… 0.355 0.196 low   WLC     short                  mindfulness        
+3 DanitzOr… 1.79  0.346 high  WLC     short                  ACT                
+4 de Vibe … 0.182 0.118 low   no int… short                  mindfulness        
+5 Frazier … 0.422 0.145 low   inform… short                  PCI                
+# ℹ abbreviated name: ¹​`intervention duration`
+# ℹ 10 more variables: population &lt;chr&gt;, `type of students` &lt;chr&gt;,
+#   `prevention type` &lt;chr&gt;, gender &lt;chr&gt;, `mode of delivery` &lt;chr&gt;,
+#   `ROB streng` &lt;chr&gt;, `ROB superstreng` &lt;chr&gt;, compensation &lt;chr&gt;,
+#   instruments &lt;chr&gt;, guidance &lt;chr&gt;</code></pre>
+</div>
+</div>
+<p>We can now use <code>meta::metagen</code> function to estimate the overall effect size. Type <code>?metagen</code> to check the possibilities.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="in">m &lt;- metagen(TE=TE,</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="in">             seTE=seTE,</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="in">             data=Meta_Analysis_Data,</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="in">             studlab=paste(Author),</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="in">             comb.fixed = TRUE,</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="in">             comb.random = FALSE)</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="in">m</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Number of studies: k = 18
+
+                                     95%-CI    z  p-value
+Common effect model 0.4805 [0.3840; 0.5771] 9.75 &lt; 0.0001
+
+Quantifying heterogeneity:
+ tau^2 = 0.0820 [0.0295; 0.3533]; tau = 0.2863 [0.1717; 0.5944]
+ I^2 = 62.6% [37.9%; 77.5%]; H = 1.64 [1.27; 2.11]
+
+Test of heterogeneity:
+     Q d.f. p-value
+ 45.50   17  0.0002
+
+Details on meta-analytical method:
+- Inverse variance method
+- Restricted maximum-likelihood estimator for tau^2
+- Q-Profile method for confidence interval of tau^2 and tau</code></pre>
+</div>
+</div>
+<p>Where <code>studlab</code> gives us nice study labels and <code>comb.fixed</code> specifies the fixed effect approach.</p>
+</section>
+<section id="case-2.-our-effect-sizes-are-not-calculated-but-we-have-the-necessary-data" class="level3">
+<h3 class="anchored" data-anchor-id="case-2.-our-effect-sizes-are-not-calculated-but-we-have-the-necessary-data">Case 2. Our effect sizes are not calculated but we have the necessary data</h3>
+<p>In this dataset:</p>
+<ul>
+<li><code>Ne</code> is the number of observations in experimental group.</li>
+<li><code>Me</code> is the estimated mean in experimental group.</li>
+<li><code>Se</code> is the standard deviation in experimental group.</li>
+<li><code>Nc</code>, <code>Mc</code> and <code>Sc</code> are same but for control group.</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="in">load("data/metacont.RData")</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="in">metacont[1:5,]</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 5 × 7
+  Author      Ne    Me    Se    Nc    Mc    Sc
+  &lt;chr&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+1 Cavanagh    50  4.5   2.7     50  5.6   2.6 
+2 Day         64 18.3   6.4     65 20.2   7.6 
+3 Frazier     90 12.5   3.2     95 15.5   4.4 
+4 Gaffney     30  2.34  0.87    30  3.13  1.23
+5 Greer       77 15.2   5.35    69 20.1   7.43</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="in">m.raw &lt;- metacont(n.e=Ne,</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="in">                  mean.e=Me,</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="in">                  sd.e=Se,</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="in">                  n.c=Nc,</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="in">                  mean.c=Mc,</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="in">                  sd.c=Sc,</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="in">                  data=metacont,</span></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a><span class="in">                  studlab=paste(Author),</span></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a><span class="in">                  comb.fixed = TRUE,</span></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a><span class="in">                  comb.random = TRUE,</span></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a><span class="in">)</span></span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a><span class="in">m.raw</span></span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Number of studies: k = 6
+Number of observations: o = 740 (o.e = 371, o.c = 369)
+
+                          MD             95%-CI     z  p-value
+Common effect model  -0.9765 [-1.3170; -0.6360] -5.62 &lt; 0.0001
+Random effects model -1.8097 [-3.1011; -0.5184] -2.75   0.0060
+
+Quantifying heterogeneity:
+ tau^2 = 2.1308 [0.5493; 17.0724]; tau = 1.4597 [0.7411; 4.1319]
+ I^2 = 84.9% [68.9%; 92.7%]; H = 2.57 [1.79; 3.69]
+
+Test of heterogeneity:
+     Q d.f.  p-value
+ 33.12    5 &lt; 0.0001
+
+Details on meta-analytical method:
+- Inverse variance method
+- Restricted maximum-likelihood estimator for tau^2
+- Q-Profile method for confidence interval of tau^2 and tau</code></pre>
+</div>
+</div>
+</section>
+<section id="case-3.-matada-again-but-with-random-effects" class="level3">
+<h3 class="anchored" data-anchor-id="case-3.-matada-again-but-with-random-effects">Case 3. <code>matada</code> again but with Random effects</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="in">m_re &lt;- metagen(TE=TE,</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="in">             seTE=seTE,</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="in">             data=Meta_Analysis_Data,</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="in">             studlab=paste(Author),</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a><span class="in">             comb.fixed = FALSE,</span></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a><span class="in">             comb.random = TRUE)</span></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a><span class="in">m_re</span></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Number of studies: k = 18
+
+                                      95%-CI    z  p-value
+Random effects model 0.5771 [0.4068; 0.7475] 6.64 &lt; 0.0001
+
+Quantifying heterogeneity:
+ tau^2 = 0.0820 [0.0295; 0.3533]; tau = 0.2863 [0.1717; 0.5944]
+ I^2 = 62.6% [37.9%; 77.5%]; H = 1.64 [1.27; 2.11]
+
+Test of heterogeneity:
+     Q d.f. p-value
+ 45.50   17  0.0002
+
+Details on meta-analytical method:
+- Inverse variance method
+- Restricted maximum-likelihood estimator for tau^2
+- Q-Profile method for confidence interval of tau^2 and tau</code></pre>
+</div>
+</div>
+</section>
+<section id="one-popular-way-of-depicting-such-analyses-forest-plots" class="level3">
+<h3 class="anchored" data-anchor-id="one-popular-way-of-depicting-such-analyses-forest-plots">One popular way of depicting such analyses: <code>forest plots</code></h3>
+<p>With <code>meta</code> package this is very simple. We just put our results into the <code>forest()</code> function:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="in">m %&gt;% forest(sortvar=TE)</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Metaanalysis_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="in">m_re %&gt;% forest(sortvar=TE)</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Metaanalysis_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="finding-what-explains-the-results" class="level2">
+<h2 class="anchored" data-anchor-id="finding-what-explains-the-results">Finding what explains the results</h2>
+<p>Once we have defined what is what in a meta-analysis setting, we can again use it for other calculations. Let’s see if the effect sizes are determined by how the study was conducted and who was involved.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="in">m %&gt;% metareg(`mode of delivery` + `type of students`)</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Mixed-Effects Model (k = 18; tau^2 estimator: REML)
+
+tau^2 (estimated amount of residual heterogeneity):     0.1468 (SE = 0.0872)
+tau (square root of estimated tau^2 value):             0.3832
+I^2 (residual heterogeneity / unaccounted variability): 73.88%
+H^2 (unaccounted variability / sampling variability):   3.83
+R^2 (amount of heterogeneity accounted for):            0.00%
+
+Test for Residual Heterogeneity:
+QE(df = 11) = 39.2473, p-val &lt; .0001
+
+Test of Moderators (coefficients 2:7):
+QM(df = 6) = 2.8707, p-val = 0.8249
+
+Model Results:
+
+                                    estimate      se     zval    pval    ci.lb 
+intrcpt                               0.3538  0.5913   0.5984  0.5496  -0.8050 
+`mode of delivery`group               0.3711  0.3903   0.9508  0.3417  -0.3938 
+`mode of delivery`online              0.0297  0.3846   0.0772  0.9385  -0.7240 
+`type of students`general             0.1063  0.5018   0.2118  0.8322  -0.8773 
+`type of students`medical studens    -0.2139  0.5209  -0.4106  0.6813  -1.2349 
+`type of students`nursing students    0.0143  0.5029   0.0285  0.9773  -0.9713 
+`type of students`psychology          0.0146  0.5614   0.0260  0.9792  -1.0857 
+                                     ci.ub    
+intrcpt                             1.5127    
+`mode of delivery`group             1.1360    
+`mode of delivery`online            0.7834    
+`type of students`general           1.0899    
+`type of students`medical studens   0.8071    
+`type of students`nursing students  0.9999    
+`type of students`psychology        1.1149    
+
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
+</div>
+</div>
+</section>
+<section id="checking-for-publication-bias" class="level2">
+<h2 class="anchored" data-anchor-id="checking-for-publication-bias">Checking for publication bias</h2>
+<p>Again, we use what we defined previously.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="in">m %&gt;% funnel()</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Metaanalysis_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>And we can add some additional features, e.g.&nbsp;let’s make it a ‘contour-enhanced’ funnel plot:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="in">contour_levels &lt;- c(0.90, 0.95, 0.99)</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="in">contour_colors &lt;- c("darkblue", "blue", "lightblue")</span></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="in">funnel(m, contour = contour_levels, col.contour = contour_colors)</span></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a><span class="in">legend("topright", c("p &lt; 0.10", "p &lt; 0.05", "p &lt; 0.01"), bty = "n", fill = contour_colors)</span></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Metaanalysis_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="assignment" class="level1">
+<h1>ASSIGNMENT</h1>
+<ol type="1">
+<li>Import the data from the <code>data\metaanalysis_data.xlsx</code> file. The data come from the meta-analysis study: <a href="https://onlinelibrary.wiley.com/doi/full/10.1002/icd.2064">Todd et al., 2017 - Sex differences in children’s toy preferences: A systematic review, meta‐regression, and meta‐analysis</a></li>
+</ol>
+<p>The study looks at various studies of children choosing what kind of toys they play with (stereotypically ‘boy-toys’ or stereotypically ‘girl-toys’). Mean times (in seconds) of playing are recorded, along with sample sizes and standard errors (for boys playing with each kind of toys and for girls playing with each kind of toys).</p>
+<p>There’s also information about the studies (e.g.&nbsp;year) and a bit about quality.</p>
+<p>Here’s authors’ descriptions to the data:</p>
+<blockquote class="blockquote">
+<p>Neutral toys (1 = neutral toys included; 2 = neutral toys not included); Parent present (1 = absent; 2 = minimal interaction; 3 = moderate or full interaction); Setting = location of study (1 = home; 2 = laboratory; 3 = nursery); Country = gender inequality index, a measure of how gender egalitarian the country was at the time the study took place.</p>
+</blockquote>
+<blockquote class="blockquote">
+<p>Note. Quality is assessed using Newcastle–Ottawa Quality Assessment Scale criteria adapted for this study. A star indicates that the study fulfilled this criterion; an X indicates that the study did not fulfil this criterion. Case definition adequate: clear justification for the gendered nature of a toy, for example, based on research. Representativeness of cases: recruitment of consecutive participants. Selection of controls: whether boys and girls were comparable in terms of social background. Parental opinion: whether parents’ views on gender were measured. Comparability of both groups: the toys were comparable (in size, shape, etc.) and if the boys and girls were comparable in age. Ascertainment of behaviour: Play behaviour was clearly defined. Same ascertainment method for both groups: The measurement of the outcome (time spent playing with toy) was clearly defined. Nonresponse rate: whether either nonuptake or dropout rates reported.</p>
+</blockquote>
+<ol start="2" type="1">
+<li>Experiment using what you’ve learned:</li>
+</ol>
+<ol type="a">
+<li>combine the effects</li>
+<li>create a funnel plot (what do you see?)</li>
+<li>check if methods / quality affect the results</li>
+<li>does author gender affect it?</li>
+</ol>
+<section id="example-scripts" class="level2">
+<h2 class="anchored" data-anchor-id="example-scripts">Example scripts</h2>
+<p>Here are some <a href="https://github.com/glowform/reproducible-research/tree/main/Assignments/RR_10_Metaanalysis/scripts">example scripts</a> in both python (not complete) and R.</p>
+</section>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
