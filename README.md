@@ -68,3 +68,5 @@ All assignments need to be delivered by midnight on the next day after the class
 09.05.2024 (DS)/13.05(QF) - Assignment 9. [ Link to instructions](https://github.com/glowform/reproducible-research/blob/main/Assignments/RR_assignment_9.md)
 
 16.05.2024 (DS)/20.05(QF) - Assignment 10. [ Link to instructions](https://github.com/glowform/reproducible-research/tree/main/Assignments/RR_10_Metaanalysis)
+
+29.05.2024 (DS)/10.06(QF) - Assignment 11. [ Link to instructions](https://github.com/glowform/reproducible-research/tree/main/Assignments/RR_11_Reproducible%20Environments)
