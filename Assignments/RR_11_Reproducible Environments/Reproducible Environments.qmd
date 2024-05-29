@@ -1,0 +1,364 @@
+---
+title: "Reproducible Research"
+subtitle: "Reproducible Environments"
+author: "Jakub Michańków (based on materials by Wojciech Hardy"
+date: today
+format:
+  html:
+    toc: true
+    toc-title: Contents
+    toc-depth: 2
+    toc-expand: 1
+    smooth-scroll: true
+    theme:
+      light: lumen
+      dark: superhero
+number-sections: true
+number-depth: 2
+execute:
+  eval: false
+title-block-banner: true
+---
+
+# Introduction
+## The problems
+
+We have previously learned how to store our codes, data, documentation using version control. 
+
+This allows us to go back to any of the previous versions of what we've created at any given moment.
+
+However, our codes depend on other variables like package and R versions. Not keeping track of the environment can get us into trouble:
+
+1) Old code might not work or produce different results.
+
+2) Colleagues unable to achieve the same results despite (seemingly) using the same code.
+
+You can find some staggering examples [here](http://datacolada.org/95) or [here](http://datacolada.org/100).
+
+## Some solutions
+
+For full reproducibility we might:
+
+- use a fixed environment (one that anyone can access).
+
+- have a jointly managed environment (e.g. by admins in a firm).
+
+- record what we're using and share it with others.
+
+[Read more about the general approaches](https://solutions.posit.co/envs-pkgs/environments/)
+
+# Solutions
+## Basic approaches: taking notes
+
+Sometimes Session Info is all we need:
+
+```r
+sessionInfo()
+```
+
+Or for a quick export:
+
+```r
+sink(file="session_info.txt")
+
+sessionInfo()
+
+sink()
+```
+
+In Python, a more elaborate way of handling this could be [through `requirements.txt`](https://note.nkmk.me/en/python-pip-install-requirements/).
+
+This information can be also included in the documentation (e.g. the Readme.md file).
+
+## Helpful tool: `groundhog`
+see: [[1]](http://datacolada.org/95)[[2]](http://datacolada.org/100)[[3]](https://groundhogr.com/)
+
+`install.packages("groundhog")`
+
+#### `groundhog` allows to load versions form a particular time
+
+So previously we did this:
+
+`library(dplyr)`
+
+`library(stringr)`
+
+And now we can, instead, do this:
+
+`library("groundhog")`
+
+`pkgs <- c("rvest", "stringi")`
+
+`groundhog.library(pkgs, date = "2021-09-01")`
+
+#### Pros and cons
+
+The advantages:
+
+- It's easy to retrofit your older code
+
+- It's quick
+
+- `groundhog` installs the appropriate versions without overwriting others.
+
+- if they're already there, it just loads up the appropriate one.
+
+- it also installs dependencies from that date.
+
+- no additional files and no project needed! 
+
+Disadvantages:
+
+- What if it's a mix of older/newer packages?
+
+
+## Env. management: [`renv`](https://rstudio.github.io/renv/articles/renv.html)
+
+`renv` is the R package for reproducible environments (check [`virtualenv`](https://virtualenv.pypa.io/en/latest/) or [`pipenv`](https://pipenv.pypa.io/en/latest/) for pretty much the same stuff in Python; also [managing environments in Conda](https://towardsdatascience.com/reproducible-data-science-with-conda-48f9de6eabd5)). 
+
+Normally, R looks for the most recent packages in its core folder:
+
+```r
+.libPaths()
+```
+
+Let's initialise a reproducible environment setting though:
+
+```r
+renv::init()
+```
+
+You can then take a look at the new folder `renv` and `renv.lock` file (e.g. in notepad).
+
+#### What's going on
+
+`renv` creates a library set that is specific for our project. In terms of how it works later on, it tells R to first look for packages in this new folder, and only then globally:
+
+```r
+.libPaths()
+```
+
+And we store different versions of packages here than we do globally.
+
+Side note: `renv` was partially meant as a replacement to the `packrat` package. You can migrate from the `packrat` to `renv` format with a `migrate()` function.
+
+#### What if we upgrade something?
+
+Let's find us an out-of-date package:
+
+```r
+View(old.packages())
+
+install.packages("highr")
+```
+
+Take a look at the contents of `renv.lock`. Let's update this.
+
+```r
+renv::snapshot()
+```
+
+Great! But what if our code broke after the update? 
+
+#### Reverting environments
+
+The `renv` package can take a look at the Git version control system that stores previous commits. We can use it to revert to a prior version of `renv.lock`.
+
+```r
+renv::history()
+renv::revert(commit = "")
+```
+
+Let's see what happened:
+
+```r
+renv::status()
+```
+
+We have a new version of the package but the lockfile uses an older one. Let's restore it.
+
+```r
+renv::restore()
+```
+
+## Other tools: Anaconda Navigator
+
+Comes with Anaconda installation (Miniconda + `conda install anaconda-navigator` is enough).
+
+Easy to operate from the prompt (e.g. `conda activate renv1`). Here's [a cheatsheet](https://conda.io/projects/conda/en/latest/user-guide/cheatsheet.html) (it's not long).
+
+Also has a GUI in a desktop app.
+
+You can: create new environments, export them (in .yml files!), import them, switch between them.
+
+You switch between them and can install differing software and package versions, as well as add specific apps, etc. 
+
+These distinct environments can be run simultaneously without collision.
+
+# Operating system and other dependencies
+
+Reproducibility might also depend on:
+
+- the operating system,
+
+- operating system libraries,
+
+- drivers and other dependencies.
+
+## Larger solutions, e.g.: Docker
+
+Docker creates and manages mini-environments configured for specific applications.
+
+Key components:
+
+1) Dockerfile (a configuration file with details on the environment)
+
+2) Image (an executable package built based on the Dockerfile)
+
+3) Container (a running instance of the image; can be stopped/removed)
+
+#### Docker files
+
+Can include information such as:
+
+- Operating system
+
+- Software version
+
+- Libraries, dependencies and their versions
+
+- Other environment configuration
+
+- Starting commands
+
+#### Docker images
+
+Once prepared, can be:
+
+- Used to run many containers
+
+- Shared with others
+
+- Kept in repositories such as Docker Hub for collaborative purposes
+
+#### [Containers](https://docs.docker.com/get-started/)
+
+- Can be started, stopped, restarted, removed, etc.
+
+- Can be run on local machines, virtual machines, deployed to the cloud
+
+- Are portable (work on any OS)
+
+- Are isolated (rely on their own software, binaries, and configurations)
+
+#### Preparing dockerfiles
+
+Use existing ones 
+
+or 
+
+[Write them by hand](https://docs.docker.com/develop/develop-images/dockerfile_best-practices/)
+
+or 
+
+Use packages for support, e.g. [dockerfiler](https://github.com/ThinkR-open/dockerfiler)
+
+
+# Sharing data
+
+Sometimes our data is a product in itself and we might want to share it. Project repositories are not always suitable for that:
+
+- they do not treat your project as a publication
+- they do not offer too much storage space
+
+Enter [data repositories](https://www.re3data.org/). Some of the data repositories are commercially oriented, while others boost open science.
+
+![](Open_Science_Principles.png)
+[Source](https://coderefinery.github.io/reproducible-research/sharing/)
+
+Also: storing your outputs in a proper repository can help get you citations.
+
+## Zenodo
+
+One example of a data repository is Zenodo. Initially funded by the European Commission as part of a Horizon 2020 project of the OpenAIRE consortium. It succeeded the "OpenAIRE Orphan Records Repository". Currently operated by CERN (European Organization for Nuclear Research).
+
+Zenodo:
+
+- caters to researchers who need a repository for their data.
+- allows files of up to 50GB (you can have multiple datasets), but larger files can be negotiated.
+- you get a Digital Object Identifier (DOI): one for each specific version, one for the object in all its versions. 
+- this makes it easy to cite.
+- you can sync this with a GitHub repository.
+
+[Read more here](https://help.zenodo.org/).
+
+The name comes from Zenodotus, which is actually quite interesting! 
+
+Zenodotus was a Greek scholar and librarian at the Library of Alexandria, circa 280 BC.
+
+He's the father of metadata! He introduced:
+
+- classification (materials were assigned to rooms based on subject matter - e.g. verse or prose, literary or scientific)
+
+- ordering (alphabetically by author)
+
+- tags with metadata (to avoid having to unscroll everything just to find what's inside...)
+
+You can play around with [Zenodo](https://zenodo.org/) using its official clone made for testing - the [Sandbox Zenodo](https://sandbox.zenodo.org/). 
+
+Of course, there are [numerous other data repositories]((https://www.re3data.org/)), including country-specific ones. 
+
+## Vagrant
+
+Vagrant is an open-source tool that simplifies the management and deployment of virtualized development environments. By providing a consistent workflow, Vagrant ensures that development environments are easily reproducible and portable across different platforms. It is particularly useful for developers working in teams, as it helps avoid the "it works on my machine" problem by standardizing the setup.
+
+Before using Vagrant, you need to install two main components:
+
+- Virtualization software: Common choices are VirtualBox or VMware.
+- Vagrant: Download and install from their website.
+
+#### Initializing a Vagrant Project:
+
+Navigate to your project directory and run `vagrant init`
+
+This command creates a `Vagrantfile` in your directory, which is used to configure the virtual environment.
+
+#### Configuring the Vagrantfile:
+
+Edit the Vagrantfile to specify the desired operating system and configuration. For example:
+
+```{r}
+Vagrant.configure("2") do |config|
+  config.vm.box = "ubuntu/bionic64"
+end
+```
+
+#### Starting the Virtual Machine:
+
+To create and start the VM, run `vagrant up`. This command downloads the specified box (if not already downloaded) and starts the virtual machine.
+
+#### Accessing the Virtual Machine:
+
+SSH into the VM using `vagrant ssh`
+
+#### Managing the Virtual Machine:
+
+`vagrant suspend` to pause the machine, `vagrant halt` to shut it down, `vagrant destroy` stops and deletes all traces of the VM, allowing you to start fresh with `vagrant up`.
+
+If you edit the `Vagrantfile` you can use `vagrant reload` to restart it with new settings.
+
+## Cloud solutions
+
+AWS, Azure, Google Cloud, Github Codespaces... and many many more.
+
+#### AWS Instances:
+
+AWS (Amazon Web Services) instances are virtual servers that run applications in the AWS cloud. They are a core component of Amazon Elastic Compute Cloud (EC2) and allow:
+
+- Scalability: Easily scale up or down based on demand.
+- Variety of Instance Types: Different types optimized for compute, memory, storage, and GPU needs.
+- Pay-as-You-Go Pricing: Pay only for the compute capacity you use.
+
+In addition with other AWS services you can create very powerful environments that can serve various purposes.
+
+
