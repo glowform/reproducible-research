@@ -41,7 +41,7 @@ Plagiarism is not tolerated in any form (including self-plagiarism). You are not
 ## Annoucements
 
 ### II SESSION - Oral Exam
-For students who havent passed in the first term (with grade 2.0) there will an oral exam in II Session (September). It will involve two questions and one or two practical assignments. The scope of the exam will be from the lesson and materials we discusses during the course.
+For students who havent passed in the first term (with grade 2.0) there will an oral exam in II Session (September). It will involve two questions and one or two practical assignments. The scope of the exam will be based on the lessons and materials we discusses during the course.
 
 ~~(QF) 19.02.2024 - Classes moved to another date: 13.03.2024 18:30~~ \
 ~~(DS) Classes moved from 26/28.03 due to rector hours to: 27.03.2024, 15:00 and 16:45~~ \
