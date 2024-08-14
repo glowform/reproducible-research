@@ -1,3 +1,12 @@
+# II SESSION - Oral Exam
+For students who haven't passed in the first term (with grade 2.0) there will be an oral exam in II Session (September). It will involve two questions and one or two practical assignments. The scope of the exam will be based on the lessons and materials we discussed during the course.
+
+#### Our meeting for the exam will be held on 10th of September, 9:30.
+
+I will send you a Zoom or Teams meeting soon.
+
+I will talk with each of you individually for about 15 minutes (or less), while others will be in the waiting room.
+
 # reproducible-research
 Course materials for Reproducible Research UW
 
@@ -40,13 +49,9 @@ Plagiarism is not tolerated in any form (including self-plagiarism). You are not
 
 ## Annoucements
 
-### II SESSION - Oral Exam
-For students who haven't passed in the first term (with grade 2.0) there will be an oral exam in II Session (September). It will involve two questions and one or two practical assignments. The scope of the exam will be based on the lessons and materials we discussed during the course.
-
 ~~(QF) 19.02.2024 - Classes moved to another date: 13.03.2024 18:30~~ \
 ~~(DS) Classes moved from 26/28.03 due to rector hours to: 27.03.2024, 15:00 and 16:45~~ \
 ~~(DS) 29.02.2024 - Classes moved to another date: 29.05.2024, 15:00 and 16:45~~ 
-
 
 
 ## Assignments
